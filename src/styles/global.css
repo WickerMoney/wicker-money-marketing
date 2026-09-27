@@ -1,0 +1,263 @@
+/*
+ * Design tokens, ported from packages/ui-kit/src/tokens.css in the main
+ * `wicker-money` repo so this site matches the app instead of drifting into
+ * its own palette. Font stack is the same system-ui stack the app actually
+ * ships (`--wm-font`) rather than the Inter/JetBrains Mono pairing proposed
+ * in Part B of the brand guide, since that pairing is explicitly marked
+ * unconfirmed there and isn't what's loaded in `apps/web` today.
+ *
+ * Marketing-only additions are prefixed `--wmm-` (display type scale, max
+ * content width) so they're never mistaken for a shipped app token.
+ */
+:root {
+  --wm-bg: #f7f8fa;
+  --wm-surface: #ffffff;
+  --wm-surface-alt: #f1f3f6;
+  --wm-border: #dfe3e9;
+  --wm-text: #16191d;
+  --wm-text-muted: #5b6472;
+  --wm-accent: #2f6feb;
+  --wm-accent-text: #ffffff;
+  --wm-positive: #1a7f52;
+  --wm-negative: #c0392b;
+  --wm-warning: #b7791f;
+
+  --wm-radius: 10px;
+  --wm-radius-sm: 6px;
+  --wm-gap: 16px;
+  --wm-gap-sm: 8px;
+  --wm-shadow: 0 1px 2px rgb(16 24 40 / 6%), 0 1px 3px rgb(16 24 40 / 4%);
+  --wm-font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --wm-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
+
+  --wmm-max-width: 1080px;
+  --wmm-display: 700 clamp(2.25rem, 1.7rem + 2.2vw, 3.5rem)/1.1 var(--wm-font);
+  --wmm-h2: 700 clamp(1.5rem, 1.3rem + 0.8vw, 2rem)/1.25 var(--wm-font);
+}
+
+/*
+ * Single source of truth for the light/dark logo swap: both rules live here
+ * (not split across a media query in this file and a scoped `display: block`
+ * layout rule in BaseLayout.astro), because a component-scoped selector like
+ * `.wmm-brand img` compiles to a higher-specificity selector than a bare
+ * `.dark-logo` class and would silently win the cascade regardless of theme
+ * — which is exactly what caused both logos to render at once. These base
+ * (light-mode default) rules must come BEFORE the dark-mode media query
+ * below, so the media query's override wins the cascade in dark mode.
+ */
+.light-logo,
+.dark-logo {
+  display: block;
+}
+
+.dark-logo {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --wm-bg: #0f1216;
+    --wm-surface: #171b21;
+    --wm-surface-alt: #1e232b;
+    --wm-border: #2b323c;
+    --wm-text: #e8eaed;
+    --wm-text-muted: #9aa4b2;
+    --wm-accent: #5b8def;
+    --wm-positive: #3fbf87;
+    --wm-negative: #e5736a;
+    --wm-warning: #e0a84a;
+    --wm-shadow: 0 1px 2px rgb(0 0 0 / 40%);
+  }
+
+  .light-logo { display: none; }
+  .dark-logo { display: block; }
+}
+
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  color-scheme: light dark;
+}
+
+body {
+  margin: 0;
+  background: var(--wm-bg);
+  color: var(--wm-text);
+  font-family: var(--wm-font);
+  font-size: 16px;
+  line-height: 1.55;
+}
+
+a {
+  color: var(--wm-accent);
+}
+
+code, pre {
+  font-family: var(--wm-mono);
+}
+
+pre {
+  background: var(--wm-surface-alt);
+  border: 1px solid var(--wm-border);
+  border-radius: var(--wm-radius-sm);
+  padding: var(--wm-gap);
+  overflow-x: auto;
+}
+
+.wmm-container {
+  max-width: var(--wmm-max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.wmm-section {
+  padding: 64px 0;
+}
+
+.wmm-section--alt {
+  background: var(--wm-surface);
+  border-top: 1px solid var(--wm-border);
+  border-bottom: 1px solid var(--wm-border);
+}
+
+h1, h2, h3, h4 {
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.wmm-eyebrow {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--wm-text-muted);
+}
+
+.wmm-lede {
+  font-size: 1.125rem;
+  color: var(--wm-text-muted);
+  max-width: 60ch;
+}
+
+.wmm-grid {
+  display: grid;
+  gap: var(--wm-gap);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.wmm-card {
+  background: var(--wm-surface);
+  border: 1px solid var(--wm-border);
+  border-radius: var(--wm-radius);
+  padding: 24px;
+  box-shadow: var(--wm-shadow);
+}
+
+.wmm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: var(--wm-radius-sm);
+  font-weight: 600;
+  text-decoration: none;
+  border: 1px solid transparent;
+}
+
+.wmm-btn--primary {
+  background: var(--wm-accent);
+  color: var(--wm-accent-text);
+}
+
+.wmm-btn--secondary {
+  background: transparent;
+  color: var(--wm-text);
+  border-color: var(--wm-border);
+}
+
+.wmm-btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--wm-border);
+}
+
+th {
+  color: var(--wm-text-muted);
+  font-size: 0.8125rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.wmm-status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.wmm-status-badge--shipped {
+  background: color-mix(in srgb, var(--wm-positive) 18%, transparent);
+  color: var(--wm-positive);
+}
+
+.wmm-status-badge--now {
+  background: color-mix(in srgb, var(--wm-accent) 18%, transparent);
+  color: var(--wm-accent);
+}
+
+.wmm-status-badge--next,
+.wmm-status-badge--later {
+  background: color-mix(in srgb, var(--wm-warning) 18%, transparent);
+  color: var(--wm-warning);
+}
+
+/* Shared across sub-pages (index.astro has its own scoped equivalents) */
+.wmm-page-hero {
+  padding-top: 96px;
+}
+
+.wmm-page-hero h1 {
+  font: var(--wmm-display);
+  margin: 12px 0 20px;
+}
+
+.wmm-steps,
+.wmm-steps--wide {
+  padding-left: 20px;
+  color: var(--wm-text-muted);
+}
+
+.wmm-steps li,
+.wmm-steps--wide li {
+  margin-bottom: 8px;
+}
+
+.wmm-steps--wide li {
+  margin-bottom: 18px;
+  color: var(--wm-text);
+}
+
+.wmm-steps--wide li strong {
+  color: var(--wm-text);
+}
+
+h2 {
+  font: var(--wmm-h2);
+}

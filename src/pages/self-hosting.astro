@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const requirements = [
+  ['Docker', 'To run the published container image.'],
+  ['PostgreSQL 16+', 'Required specifically — not SQLite or MySQL. Plugin isolation is enforced with row-level security, roles and schemas that only Postgres has.'],
+  ['A place to put it', 'A homelab box, a small VPS, anything that can stay reachable. Wicker Money doesn’t need much: it’s a single container plus your existing Postgres.'],
+]
+---
+
+<BaseLayout
+  title="Self-hosting"
+  description="What it actually takes to run Wicker Money yourself: Docker, PostgreSQL 16+, and why Postgres specifically is a hard requirement."
+>
+  <section class="wmm-section wmm-page-hero">
+    <div class="wmm-container">
+      <p class="wmm-eyebrow">Self-hosting</p>
+      <h1>Run it on your own server.</h1>
+      <p class="wmm-lede">
+        This page is the honest overview. The
+        <a href="https://wickermoney.dev/docs/self-hosting/quickstart">step-by-step quickstart</a>
+        lives on the docs site and is the one that's kept current line-by-line —
+        this page won't repeat it in full and drift out of sync.
+      </p>
+    </div>
+  </section>
+
+  <section class="wmm-section wmm-section--alt">
+    <div class="wmm-container">
+      <h2>What you need</h2>
+      <table>
+        <tbody>
+          {requirements.map(([name, note]) => (
+            <tr>
+              <td style="width: 220px; font-weight: 600;">{name}</td>
+              <td>{note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="wmm-section">
+    <div class="wmm-container">
+      <h2>Why Postgres is a hard requirement</h2>
+      <p class="wmm-lede" style="max-width: 72ch;">
+        The core owns identity and the ledger; everything that interprets money —
+        budgets, forecasting, net worth, importers — is a plugin. Keeping one plugin's
+        data invisible to another (and to the wrong user) is enforced with Postgres
+        row-level security and per-plugin database roles derived from each plugin's
+        manifest, not just checked in application code. That's a deliberate,
+        load-bearing choice, not a default nobody reconsidered.
+      </p>
+    </div>
+  </section>
+
+  <section class="wmm-section wmm-section--alt">
+    <div class="wmm-container">
+      <h2>The shape of it</h2>
+      <ol class="wmm-steps wmm-steps--wide">
+        <li><strong>Pull the image.</strong> <code>docker pull ghcr.io/wickermoney/wicker-money:latest</code> — pin a version once you have plugins in the picture; bundled plugins ship inside the same image.</li>
+        <li><strong>Point it at Postgres.</strong> The app connects as a least-privilege role that owns nothing and can't bypass row-level security. Migrations connect as a separate owner role that can. Both point at the same database.</li>
+        <li><strong>Run migrations.</strong> The image doesn't migrate on start, on purpose — that would mean the running API needs owner credentials, which it deliberately doesn't have.</li>
+        <li><strong>Start it.</strong> <code>docker compose up -d</code>. Put a reverse proxy in front if you want TLS and a real domain; set <code>TRUST_PROXY=true</code> if you do.</li>
+      </ol>
+      <div class="wmm-btn-row">
+        <a class="wmm-btn wmm-btn--primary" href="https://wickermoney.dev/docs/self-hosting/quickstart">Open the full quickstart</a>
+        <a class="wmm-btn wmm-btn--secondary" href="https://wickermoney.dev/docs/self-hosting/configuration">Configuration reference</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wmm-section">
+    <div class="wmm-container">
+      <h2>Before you commit to running this</h2>
+      <p class="wmm-lede" style="max-width: 72ch;">
+        Wicker Money is pre-1.0 with a single maintainer. Pre-1.0 means minor versions
+        may still break things between releases — read
+        <a href="https://wickermoney.dev/docs/self-hosting/upgrading">what to expect between upgrades</a>
+        before you point it at data you can't afford to lose, and keep your own backups
+        of the Postgres database regardless of what Wicker Money does or doesn't do.
+      </p>
+    </div>
+  </section>
+</BaseLayout>

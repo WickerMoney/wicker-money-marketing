@@ -1,0 +1,107 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout
+  title="Migrating from Mint"
+  description="What actually moving your data from Mint (or a Mint export you've been sitting on) into Wicker Money looks like today, including what isn't built yet."
+>
+  <section class="wmm-section wmm-page-hero">
+    <div class="wmm-container">
+      <p class="wmm-eyebrow">Coming from Mint</p>
+      <h1>Bringing your data over</h1>
+      <p class="wmm-lede">
+        Mint shut down and took its "just works" bank sync with it. Wicker Money doesn't
+        replace that experience yet — here's exactly what it does today, so you can
+        decide if it's worth the manual step right now.
+      </p>
+    </div>
+  </section>
+
+  <section class="wmm-section wmm-section--alt">
+    <div class="wmm-container">
+      <h2>What's actually built today</h2>
+      <p class="wmm-lede" style="max-width: 72ch;">
+        Wicker Money imports from CSV. There's no automatic bank sync yet — that's not
+        on the roadmap as a near-term item, so if a live bank connection is a
+        dealbreaker for you right now, this isn't ready for that yet. What the CSV
+        importer does handle:
+      </p>
+      <ul class="wmm-checklist">
+        <li>A saved column mapping per source, so re-importing from the same bank later doesn't mean re-mapping columns every time.</li>
+        <li>An explicit date format with a live parse preview, instead of guessing and hoping.</li>
+        <li>Duplicate detection across imports.</li>
+        <li>Category rules with a preview before a rule touches anything, plus triage for whatever a rule doesn't catch.</li>
+        <li>Batch undo, if an import or a rule does something you didn't want.</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="wmm-section">
+    <div class="wmm-container">
+      <h2>The path</h2>
+      <ol class="wmm-steps wmm-steps--wide">
+        <li>
+          <strong>Get your history out.</strong> If you still have an old Mint export
+          sitting around, start there. Going forward, each bank and card issuer has its
+          own CSV export — that's what feeds Wicker Money from here on, one account at
+          a time.
+        </li>
+        <li>
+          <strong>Set up your accounts and categories in Wicker Money first.</strong>
+          Decide your category list before the first big import; it's easier to import
+          into categories that already exist than to rename hundreds of transactions
+          after the fact.
+        </li>
+        <li>
+          <strong>Import one account, map its columns once.</strong> The mapping is
+          saved per source, so the next statement from the same account is a straight
+          re-import.
+        </li>
+        <li>
+          <strong>Write a handful of category rules, then triage what's left.</strong>
+          Rules preview before they apply, so you can see what a rule will do before it
+          touches your ledger.
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="wmm-section wmm-section--alt">
+    <div class="wmm-container">
+      <h2>Still deciding?</h2>
+      <p class="wmm-lede" style="max-width: 72ch;">
+        See <a href="/features">what's built versus planned</a> for the honest current
+        state, or go straight to <a href="/self-hosting">self-hosting</a> if the manual
+        import above is a trade you're fine making for owning your data.
+      </p>
+      <div class="wmm-btn-row">
+        <a class="wmm-btn wmm-btn--primary" href="/self-hosting">Set up self-hosting</a>
+        <a class="wmm-btn wmm-btn--secondary" href="/features">What's built vs. planned</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .wmm-checklist {
+      list-style: none;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 68ch;
+    }
+    .wmm-checklist li {
+      padding-left: 28px;
+      position: relative;
+      color: var(--wm-text-muted);
+    }
+    .wmm-checklist li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      color: var(--wm-positive);
+      font-weight: 700;
+    }
+  </style>
+</BaseLayout>

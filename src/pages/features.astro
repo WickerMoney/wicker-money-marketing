@@ -1,0 +1,144 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const shipped = [
+  ['Auth & ledger', 'Users, accounts, categories, rules, transactions and splits — all under row-level security. Account balances are derived from the ledger, never stored.'],
+  ['App shell & plugin host', 'Module Federation host with dashboard widgets contributed by plugins, and per-plugin database roles derived from each plugin’s manifest.'],
+  ['Import & categorization', 'CSV import with saved column mappings, duplicate detection and batch undo. Category rules with a preview, plus triage on the Transactions page.'],
+  ['Budgets plugin', 'Per-category budgets with per-line rollover.'],
+]
+
+const now = [
+  'First tagged release (v0.1.0): self-hosting quickstart, a published container image, published plugin-sdk and ui-kit.',
+  'Hardening first-run and deployment: registration policy, secure cookie guidance.',
+  'A semimonthly recurrence frequency, added now because it’s a core database enum — cheaper before the first tag than after.',
+  'Filling gaps in the design tokens (a chart palette, among others) before plugins come to depend on them.',
+]
+
+const next = [
+  'Recurring items management in core, on its own page — the table exists, nothing populates it yet.',
+  'An upcoming bills & income widget: read-only, from today through your next payday, with a shortfall warning against each account’s buffer amount.',
+  'Paid/landed matching — matching expected recurring items against real transactions.',
+  'Forecasting, built on top of recurring items.',
+  'A plugin picker to enable and disable plugins from the UI.',
+  'A debt payoff plugin (snowball and avalanche).',
+]
+
+const later = [
+  'Cross-plugin data access — today a plugin only sees core tables, not another plugin’s data.',
+  'An envelope budgeting plugin alongside the existing budgets plugin.',
+  'FIRE plugins (lean, fat, barista, coast), comparable side by side, once forecasting exists.',
+  'Third-party plugin installation — blocked on plugin isolation, which doesn’t exist yet; all plugin code today runs fully trusted.',
+  'Freezing the plugin API (SDK_MAJOR_VERSION) ahead of 1.0.',
+]
+---
+
+<BaseLayout
+  title="Features"
+  description="What's actually shipped in Wicker Money today, what's scoped for the first release, and what's next — sourced directly from the project's own roadmap, not marketing copy."
+>
+  <section class="wmm-section wmm-page-hero">
+    <div class="wmm-container">
+      <p class="wmm-eyebrow">Shipped vs. planned</p>
+      <h1>What's built, and what isn't yet</h1>
+      <p class="wmm-lede">
+        Wicker Money is pre-1.0 with a single maintainer. This page mirrors
+        <a href="https://github.com/wickermoney/wicker-money/blob/main/ROADMAP.md">the project's ROADMAP.md</a>
+        directly rather than restating it loosely, so it can't drift into overpromising.
+      </p>
+    </div>
+  </section>
+
+  <section class="wmm-section wmm-section--alt">
+    <div class="wmm-container">
+      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Milestones M1&ndash;M3</h2>
+      <table>
+        <tbody>
+          {shipped.map(([name, note]) => (
+            <tr>
+              <td style="width: 220px; font-weight: 600;">{name}</td>
+              <td>{note}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <p class="wmm-fineprint">Two more bundled plugins, insights and spending-trends, also ship in the image — see the repo for what they currently cover.</p>
+    </div>
+  </section>
+
+  <section class="wmm-section">
+    <div class="wmm-container wmm-roadmap-grid">
+      <div>
+        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> Scope of v0.1.0</h2>
+        <ul>
+          {now.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+      <div>
+        <h2><span class="wmm-status-badge wmm-status-badge--next">Next</span></h2>
+        <ul>
+          {next.map((item) => <li>{item}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="wmm-section wmm-section--alt">
+    <div class="wmm-container">
+      <h2><span class="wmm-status-badge wmm-status-badge--later">Later</span></h2>
+      <ul class="wmm-later-list">
+        {later.map((item) => <li>{item}</li>)}
+      </ul>
+    </div>
+  </section>
+
+  <section class="wmm-section">
+    <div class="wmm-container">
+      <h2>How the plugin model works</h2>
+      <p class="wmm-lede" style="max-width: 72ch;">
+        The core owns identity, money movement and the app shell. Everything that
+        <em>interprets</em> money &mdash; budgets, forecasting, net worth, FIRE, importers
+        &mdash; is a plugin built against <code>@wickermoney/plugin-sdk</code>. A fresh
+        install is useful on its own; bundled plugins hold no privileges a third-party
+        plugin couldn't also request.
+      </p>
+      <p class="wmm-lede" style="max-width: 72ch;">
+        The app and bundled plugins are AGPL-3.0. <code>plugin-sdk</code> and
+        <code>ui-kit</code> &mdash; the surface a plugin is built against &mdash; are
+        Apache-2.0, which is what makes an independently-built, non-bundled plugin
+        licensable on its own terms. Third-party plugin installation itself isn't built
+        yet, since it depends on plugin isolation that doesn't exist today.
+      </p>
+    </div>
+  </section>
+
+  <style>
+    .wmm-roadmap-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+    }
+    .wmm-roadmap-grid ul,
+    .wmm-later-list {
+      padding-left: 20px;
+      color: var(--wm-text-muted);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .wmm-fineprint {
+      margin-top: 16px;
+      font-size: 0.875rem;
+      color: var(--wm-text-muted);
+    }
+    h2 .wmm-status-badge {
+      vertical-align: middle;
+      margin-right: 8px;
+    }
+    @media (max-width: 800px) {
+      .wmm-roadmap-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</BaseLayout>

@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+---
+
+<BaseLayout
+  title="Pricing"
+  description="Self-hosted Wicker Money is free and open source. A hosted version is a possibility being considered for the future, not a committed product with a price."
+>
+  <section class="wmm-section wmm-page-hero">
+    <div class="wmm-container">
+      <p class="wmm-eyebrow">Pricing</p>
+      <h1>Self-hosted is free. That's not an intro offer.</h1>
+      <p class="wmm-lede">
+        There's no free tier designed to convert you into a paid one. Self-hosting is
+        the product, and it costs whatever it costs you to run a small Docker container
+        next to a Postgres database you already have or can add cheaply.
+      </p>
+    </div>
+  </section>
+
+  <section class="wmm-section wmm-section--alt">
+    <div class="wmm-container wmm-pricing-grid">
+      <div class="wmm-card wmm-pricing-card">
+        <h2>Self-hosted</h2>
+        <p class="wmm-price">$0</p>
+        <p>Run it yourself on your own hardware or a small VPS.</p>
+        <ul class="wmm-checklist">
+          <li>Full application, AGPL-3.0</li>
+          <li>All bundled plugins</li>
+          <li>Your data never leaves your infrastructure</li>
+          <li>No account limits, no feature gates</li>
+        </ul>
+        <div class="wmm-btn-row">
+          <a class="wmm-btn wmm-btn--primary" href="/self-hosting">Get started</a>
+        </div>
+      </div>
+      <div class="wmm-card wmm-pricing-card wmm-pricing-card--future">
+        <h2>Hosted</h2>
+        <p class="wmm-price">Not available</p>
+        <p>
+          A hosted version is something we're considering, not something we've built or
+          priced. If self-hosting isn't for you, it isn't ready yet &mdash; there's no
+          waitlist to join today.
+        </p>
+        <div class="wmm-btn-row">
+          <a class="wmm-btn wmm-btn--secondary" href="https://github.com/wickermoney/wicker-money">Follow progress on GitHub</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="wmm-section">
+    <div class="wmm-container">
+      <h2>What "free" actually means here</h2>
+      <p class="wmm-lede" style="max-width: 72ch;">
+        No investors, no advertising business model, no data broker deal funding the
+        gap. The application and bundled plugins are licensed AGPL-3.0; the plugin SDK
+        and UI kit &mdash; the surface a plugin builds against &mdash; are Apache-2.0. Nothing
+        here is a loss-leader for a subscription upsell.
+      </p>
+    </div>
+  </section>
+
+  <style>
+    .wmm-pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: var(--wm-gap);
+    }
+    .wmm-pricing-card h2 {
+      margin: 0 0 4px;
+    }
+    .wmm-pricing-card--future {
+      opacity: 0.85;
+    }
+    .wmm-price {
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 12px;
+    }
+    .wmm-checklist {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      color: var(--wm-text-muted);
+    }
+    .wmm-checklist li {
+      padding-left: 24px;
+      position: relative;
+    }
+    .wmm-checklist li::before {
+      content: '\2713';
+      position: absolute;
+      left: 0;
+      color: var(--wm-positive);
+      font-weight: 700;
+    }
+  </style>
+</BaseLayout>

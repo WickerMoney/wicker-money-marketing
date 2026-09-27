@@ -1,0 +1,179 @@
+---
+import '../styles/global.css'
+
+interface Props {
+  title: string
+  description: string
+}
+
+const { title, description } = Astro.props
+const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+
+const nav = [
+  { href: '/self-hosting', label: 'Self-hosting' },
+  { href: '/migrate-from-mint', label: 'Migrate from Mint' },
+  { href: '/features', label: 'Features' },
+  { href: '/pricing', label: 'Pricing' },
+  { href: '/changelog', label: 'Changelog' },
+]
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <title>{title} · Wicker Money</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={`${title} · Wicker Money`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:image" content={new URL('/img/wickermoney-logo-primary.png', Astro.site)} />
+    <meta name="twitter:card" content="summary" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon/favicon-32.png" />
+    <link rel="apple-touch-icon" href="/img/favicon/apple-touch-icon.png" />
+  </head>
+  <body>
+    <header class="wmm-header">
+      <div class="wmm-container wmm-header__inner">
+        <a href="/" class="wmm-brand" aria-label="Wicker Money home">
+          <img class="light-logo" src="/img/wickermoney-logo-horizontal-small.png" alt="Wicker Money" height="28" />
+          <img class="dark-logo" src="/img/dark-mode/wickermoney-logo-horizontal-small.png" alt="Wicker Money" height="28" />
+        </a>
+        <nav class="wmm-nav" aria-label="Primary">
+          {nav.map((item) => (
+            <a href={item.href}>{item.label}</a>
+          ))}
+          <a href="https://github.com/wickermoney/wicker-money" class="wmm-nav__github">GitHub</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <slot />
+    </main>
+
+    <footer class="wmm-footer">
+      <div class="wmm-container wmm-footer__inner">
+        <div class="wmm-footer__brand">
+          <img class="light-logo" src="/img/icons/wickermoney-icon-dark-green.png" alt="" width="28" height="28" />
+          <img class="dark-logo" src="/img/icons/wickermoney-icon-dark-green-dark.png" alt="" width="28" height="28" />
+          <p>Wicker Money is self-hosted personal finance software, built by Jeremy Reed. Not backed by anyone.</p>
+        </div>
+        <div class="wmm-footer__cols">
+          <div>
+            <h4>Project</h4>
+            <ul>
+              <li><a href="https://github.com/wickermoney/wicker-money">Source on GitHub</a></li>
+              <li><a href="https://wickermoney.dev">Documentation</a></li>
+              <li><a href="https://github.com/wickermoney/wicker-money/blob/main/LICENSE">License (AGPL-3.0)</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Site</h4>
+            <ul>
+              {nav.map((item) => (
+                <li><a href={item.href}>{item.label}</a></li>
+              ))}
+            </ul>
+          </div>
+          <div>
+            <h4>Contact</h4>
+            <ul>
+              <li><a href="mailto:support@wicker.money">support@wicker.money</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      .wmm-header {
+        border-bottom: 1px solid var(--wm-border);
+        background: var(--wm-surface);
+      }
+      .wmm-header__inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: var(--wm-gap);
+        padding: 16px 24px;
+        flex-wrap: wrap;
+      }
+      .wmm-nav {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        font-size: 0.9375rem;
+      }
+      .wmm-nav a {
+        color: var(--wm-text);
+        text-decoration: none;
+      }
+      .wmm-nav a:hover {
+        color: var(--wm-accent);
+      }
+      .wmm-nav__github {
+        font-weight: 600;
+      }
+      .wmm-footer {
+        border-top: 1px solid var(--wm-border);
+        margin-top: 64px;
+      }
+      .wmm-footer__inner {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 48px;
+        justify-content: space-between;
+        padding: 48px 24px;
+      }
+      .wmm-footer__brand {
+        max-width: 320px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .wmm-footer__brand p {
+        color: var(--wm-text-muted);
+        font-size: 0.875rem;
+        margin: 0;
+      }
+      .wmm-footer__cols {
+        display: flex;
+        gap: 48px;
+        flex-wrap: wrap;
+      }
+      .wmm-footer h4 {
+        margin: 0 0 12px;
+        font-size: 0.8125rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        color: var(--wm-text-muted);
+      }
+      .wmm-footer ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+      .wmm-footer a {
+        color: var(--wm-text);
+        text-decoration: none;
+        font-size: 0.9375rem;
+      }
+      .wmm-footer a:hover {
+        color: var(--wm-accent);
+      }
+    </style>
+  </body>
+</html>

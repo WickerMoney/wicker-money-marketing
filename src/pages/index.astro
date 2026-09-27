@@ -1,0 +1,431 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const pillars = [
+  {
+    icon: '🔒',
+    title: 'Your server, your data',
+    body: 'Runs on your own hardware over Docker and PostgreSQL. Every user, and every plugin’s tables, are isolated with row-level security enforced by Postgres itself — not just checked in app code.',
+  },
+  {
+    icon: '📭',
+    title: 'No ads, no algorithm',
+    body: 'No investors, no advertising business model, nothing to sell. The incentive to mine your transactions for anything other than showing them back to you doesn’t exist.',
+  },
+  {
+    icon: '🧳',
+    title: 'No lock-in',
+    body: 'The app and bundled plugins are AGPL-3.0; the plugin SDK is Apache-2.0 so third-party plugins can pick their own license. Nothing about your install is proprietary.',
+  },
+]
+
+---
+
+<BaseLayout
+  title="Self-hosted personal finance"
+  description="Wicker Money is a self-hosted personal finance app: a thin core plus installable plugins, built for people who want their financial data on their own server."
+>
+  <section class="wmm-hero">
+    <div class="wmm-container wmm-hero__inner">
+      <p class="wmm-eyebrow">Self-hosted personal finance</p>
+      <h1>Weave together your future.</h1>
+      <p class="wmm-lede wmm-hero__lede">
+        Wicker Money is a self-hosted personal finance app you run yourself — a thin
+        core plus installable plugins, and no one else holding your data.
+      </p>
+      <div class="wmm-btn-row">
+        <a class="wmm-btn wmm-btn--primary" href="https://github.com/wickermoney/wicker-money">Watch on GitHub</a>
+        <a class="wmm-btn wmm-btn--secondary" href="/self-hosting">Read the self-hosting guide</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wmm-section">
+    <div class="wmm-container">
+      <div class="wmm-grid">
+        {pillars.map((p) => (
+          <div class="wmm-card">
+            <div class="wmm-card__icon" aria-hidden="true">{p.icon}</div>
+            <h3>{p.title}</h3>
+            <p>{p.body}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="wmm-section wmm-showcase">
+    <div class="wmm-container">
+      <p class="wmm-eyebrow">The app</p>
+      <h2>Designed to feel like today, not 2010</h2>
+      <p class="wmm-lede">
+        A dashboard, a ledger you can actually read, and category rules that don't
+        fight you. This is the app's real navigation and the bundled budgets plugin,
+        not a hosted demo.
+      </p>
+
+      <div class="wmm-mock" role="img" aria-label="Wicker Money dashboard showing this month's spending, a groceries budget, connected accounts, and a list of recent transactions">
+        <div class="wmm-mock__chrome">
+          <span class="wmm-mock__dot"></span>
+          <span class="wmm-mock__dot"></span>
+          <span class="wmm-mock__dot"></span>
+          <span class="wmm-mock__url">localhost:8180</span>
+        </div>
+        <div class="wmm-mock__body">
+          <aside class="wmm-mock__sidebar">
+            <p class="wmm-mock__sidebar-label">Overview</p>
+            <ul>
+              <li class="is-active">Dashboard</li>
+              <li>Accounts</li>
+              <li>Transactions</li>
+              <li>Categories</li>
+            </ul>
+            <p class="wmm-mock__sidebar-label">Plugins</p>
+            <ul>
+              <li>Budgets</li>
+            </ul>
+          </aside>
+          <div class="wmm-mock__main">
+            <div class="wmm-mock__tiles">
+              <div class="wmm-mock__tile">
+                <p class="wmm-mock__tile-label">This month</p>
+                <p class="wmm-mock__tile-value wmm-mock__amt--negative">−$2,847.50</p>
+              </div>
+              <div class="wmm-mock__tile">
+                <p class="wmm-mock__tile-label">Groceries budget</p>
+                <p class="wmm-mock__tile-value">$312 <span class="wmm-mock__tile-sub">of $450</span></p>
+                <div class="wmm-mock__bar"><span style="width: 69%;"></span></div>
+              </div>
+              <div class="wmm-mock__tile">
+                <p class="wmm-mock__tile-label">Accounts</p>
+                <p class="wmm-mock__tile-value">4 connected</p>
+              </div>
+            </div>
+            <p class="wmm-mock__section-label">Recent transactions</p>
+            <ul class="wmm-mock__transactions">
+              <li>
+                <div><strong>Whole Foods Market</strong><span>Groceries · Apr 14</span></div>
+                <span class="wmm-mock__amt wmm-mock__amt--negative">−$127.43</span>
+              </li>
+              <li>
+                <div><strong>Direct deposit</strong><span>Income · Apr 12</span></div>
+                <span class="wmm-mock__amt wmm-mock__amt--positive">+$4,166.67</span>
+              </li>
+              <li>
+                <div><strong>Rent — Apr</strong><span>Housing · Apr 1</span></div>
+                <span class="wmm-mock__amt wmm-mock__amt--negative">−$1,850.00</span>
+              </li>
+              <li>
+                <div><strong>Netflix</strong><span>Subscriptions · Mar 31</span></div>
+                <span class="wmm-mock__amt wmm-mock__amt--negative">−$15.99</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <p class="wmm-mock__caption">
+        Illustrative, built from the app's real design tokens and its actual nav
+        (Dashboard, Accounts, Transactions, Categories) plus the bundled Budgets
+        plugin — not a hosted demo, and not a feature list. See
+        <a href="/features">what's shipped vs. planned</a> for that.
+      </p>
+    </div>
+  </section>
+
+  <section class="wmm-section wmm-section--alt">
+    <div class="wmm-container wmm-reality">
+      <div>
+        <p class="wmm-eyebrow">Self-hosting, honestly</p>
+        <h2>Harder than Mint. Easier than you think.</h2>
+        <p class="wmm-lede">
+          There's no cloud sign-up flow to hide the moving parts. You'll need Docker and
+          a PostgreSQL 16+ server — Postgres specifically, since plugin isolation is
+          enforced with row-level security, roles and schemas that only Postgres has.
+        </p>
+        <ol class="wmm-steps">
+          <li>Pull the published image from GHCR and point it at your Postgres server.</li>
+          <li>Run the migrations as the database owner role (the running app never gets owner privileges).</li>
+          <li><code>docker compose up -d</code>, then sign in at the port you configured.</li>
+        </ol>
+        <div class="wmm-btn-row">
+          <a class="wmm-btn wmm-btn--primary" href="/self-hosting">Full self-hosting guide</a>
+        </div>
+      </div>
+      <pre><code>docker pull ghcr.io/wickermoney/wicker-money:latest
+
+docker network create wickermoney_default
+docker volume create wickermoney_data
+
+docker run --rm --env-file .env \
+  wickermoney node dist/db/cli.js up
+
+docker compose up -d</code></pre>
+    </div>
+  </section>
+
+  <section class="wmm-section">
+    <div class="wmm-container wmm-status">
+      <p class="wmm-eyebrow">Where things stand</p>
+      <h2>Pre-1.0, one maintainer, built in the open.</h2>
+      <p class="wmm-lede">
+        Auth, the ledger, the plugin shell and CSV import are shipped (milestones
+        M1&ndash;M3). That's stated plainly, not as a disclaimer &mdash; it's why the
+        roadmap moves in small, shipped pieces instead of promised dates.
+      </p>
+      <div class="wmm-btn-row">
+        <a class="wmm-btn wmm-btn--primary" href="/features">See what's built vs. planned</a>
+        <a class="wmm-btn wmm-btn--secondary" href="https://github.com/wickermoney/wicker-money/blob/main/ROADMAP.md">Full roadmap on GitHub</a>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .wmm-hero {
+      padding: 96px 0 72px;
+    }
+    .wmm-hero__inner {
+      max-width: 760px;
+    }
+    .wmm-hero h1 {
+      font: var(--wmm-display);
+      margin: 12px 0 20px;
+    }
+    .wmm-hero__lede {
+      max-width: 52ch;
+    }
+    .wmm-card__icon {
+      font-size: 1.75rem;
+      margin-bottom: 8px;
+    }
+    .wmm-reality {
+      display: grid;
+      grid-template-columns: 1.1fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .wmm-reality h2 {
+      font: var(--wmm-h2);
+      margin: 12px 0 16px;
+    }
+    .wmm-reality pre {
+      margin: 0;
+      font-size: 0.8125rem;
+    }
+    .wmm-steps {
+      padding-left: 20px;
+      color: var(--wm-text-muted);
+    }
+    .wmm-steps li {
+      margin-bottom: 8px;
+    }
+    .wmm-status h2 {
+      font: var(--wmm-h2);
+      margin: 12px 0 16px;
+    }
+    @media (max-width: 800px) {
+      .wmm-reality {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .wmm-showcase h2 {
+      font: var(--wmm-h2);
+      margin: 12px 0 16px;
+    }
+    .wmm-mock {
+      margin-top: 40px;
+      border: 1px solid var(--wm-border);
+      border-radius: var(--wm-radius);
+      overflow: hidden;
+      box-shadow: 0 8px 24px rgb(16 24 40 / 8%), var(--wm-shadow);
+      background: var(--wm-surface);
+    }
+    .wmm-mock__chrome {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 16px;
+      background: var(--wm-surface-alt);
+      border-bottom: 1px solid var(--wm-border);
+    }
+    .wmm-mock__dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--wm-border);
+      display: inline-block;
+    }
+    .wmm-mock__url {
+      margin: 0 auto;
+      font-family: var(--wm-mono);
+      font-size: 0.75rem;
+      color: var(--wm-text-muted);
+    }
+    .wmm-mock__body {
+      display: grid;
+      grid-template-columns: 190px 1fr;
+      min-height: 380px;
+    }
+    .wmm-mock__sidebar {
+      border-right: 1px solid var(--wm-border);
+      padding: 20px 12px;
+      background: var(--wm-surface-alt);
+    }
+    .wmm-mock__sidebar-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--wm-text-muted);
+      margin: 0 0 8px;
+      padding: 0 10px;
+    }
+    .wmm-mock__sidebar-label:not(:first-child) {
+      margin-top: 20px;
+    }
+    .wmm-mock__sidebar ul {
+      list-style: none;
+      margin: 0 0 4px;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .wmm-mock__sidebar li {
+      padding: 8px 10px;
+      border-radius: var(--wm-radius-sm);
+      font-size: 0.875rem;
+      color: var(--wm-text-muted);
+    }
+    .wmm-mock__sidebar li.is-active {
+      background: var(--wm-surface);
+      color: var(--wm-text);
+      font-weight: 600;
+      box-shadow: var(--wm-shadow);
+    }
+    .wmm-mock__main {
+      padding: 24px;
+    }
+    .wmm-mock__tiles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 28px;
+    }
+    .wmm-mock__tile {
+      border: 1px solid var(--wm-border);
+      border-radius: var(--wm-radius-sm);
+      padding: 14px 16px;
+      background: var(--wm-surface);
+    }
+    .wmm-mock__tile-label {
+      margin: 0 0 6px;
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--wm-text-muted);
+    }
+    .wmm-mock__tile-value {
+      margin: 0;
+      font-family: var(--wm-mono);
+      font-size: 1.125rem;
+      font-weight: 600;
+      color: var(--wm-text);
+    }
+    .wmm-mock__tile-sub {
+      font-family: var(--wm-font);
+      font-size: 0.75rem;
+      font-weight: 400;
+      color: var(--wm-text-muted);
+    }
+    .wmm-mock__bar {
+      margin-top: 10px;
+      height: 6px;
+      border-radius: 999px;
+      background: var(--wm-surface-alt);
+      overflow: hidden;
+    }
+    .wmm-mock__bar span {
+      display: block;
+      height: 100%;
+      background: var(--wm-accent);
+      border-radius: 999px;
+    }
+    .wmm-mock__section-label {
+      font-size: 0.6875rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--wm-text-muted);
+      margin: 0 0 8px;
+    }
+    .wmm-mock__transactions {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+    .wmm-mock__transactions li {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--wm-border);
+      font-size: 0.875rem;
+    }
+    .wmm-mock__transactions li:last-child {
+      border-bottom: none;
+    }
+    .wmm-mock__transactions li div {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .wmm-mock__transactions li strong {
+      font-weight: 600;
+    }
+    .wmm-mock__transactions li div span {
+      color: var(--wm-text-muted);
+      font-size: 0.75rem;
+    }
+    .wmm-mock__amt {
+      font-family: var(--wm-mono);
+      font-weight: 600;
+      white-space: nowrap;
+    }
+    .wmm-mock__amt--positive {
+      color: var(--wm-positive);
+    }
+    .wmm-mock__amt--negative {
+      color: var(--wm-negative);
+    }
+    .wmm-mock__caption {
+      margin-top: 16px;
+      font-size: 0.8125rem;
+      color: var(--wm-text-muted);
+      max-width: 68ch;
+    }
+    @media (max-width: 700px) {
+      .wmm-mock__body {
+        grid-template-columns: 1fr;
+      }
+      .wmm-mock__sidebar {
+        display: flex;
+        flex-wrap: wrap;
+        border-right: none;
+        border-bottom: 1px solid var(--wm-border);
+      }
+      .wmm-mock__sidebar-label {
+        display: none;
+      }
+      .wmm-mock__sidebar ul {
+        flex-direction: row;
+        flex-wrap: wrap;
+      }
+      .wmm-mock__tiles {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</BaseLayout>

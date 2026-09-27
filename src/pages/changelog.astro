@@ -1,0 +1,80 @@
+---
+import { getCollection, render } from 'astro:content'
+import BaseLayout from '../layouts/BaseLayout.astro'
+
+const entries = (await getCollection('changelog')).sort((a, b) => {
+  if (a.data.unreleased) return -1
+  if (b.data.unreleased) return 1
+  return (b.data.date ?? '').localeCompare(a.data.date ?? '')
+})
+---
+
+<BaseLayout
+  title="Changelog"
+  description="What's shipped in Wicker Money, curated from the project's own CHANGELOG.md."
+>
+  <section class="wmm-section wmm-page-hero">
+    <div class="wmm-container">
+      <p class="wmm-eyebrow">Changelog</p>
+      <h1>What's shipped</h1>
+      <p class="wmm-lede">
+        Curated for readability here; the
+        <a href="https://github.com/wickermoney/wicker-money/blob/main/CHANGELOG.md">full CHANGELOG.md</a>
+        in the repo is the source of truth and updates first.
+      </p>
+    </div>
+  </section>
+
+  <section class="wmm-section">
+    <div class="wmm-container wmm-changelog-list">
+      {entries.map(async (entry) => {
+        const { Content } = await render(entry)
+        return (
+          <article class="wmm-changelog-entry">
+            <header>
+              <h2>{entry.data.title}</h2>
+              {entry.data.date && <p class="wmm-fineprint">{entry.data.date}</p>}
+            </header>
+            <div class="wmm-changelog-body">
+              <Content />
+            </div>
+          </article>
+        )
+      })}
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .wmm-changelog-list {
+    max-width: 72ch;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+  .wmm-changelog-entry {
+    border-bottom: 1px solid var(--wm-border);
+    padding-bottom: 40px;
+  }
+  .wmm-changelog-entry:last-child {
+    border-bottom: none;
+  }
+  .wmm-changelog-body :global(h3) {
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--wm-text-muted);
+    margin-bottom: 8px;
+  }
+  .wmm-changelog-body :global(ul) {
+    padding-left: 20px;
+  }
+  .wmm-changelog-body :global(li) {
+    margin-bottom: 8px;
+  }
+  .wmm-fineprint {
+    color: var(--wm-text-muted);
+    font-size: 0.875rem;
+    margin: 4px 0 0;
+  }
+</style>
