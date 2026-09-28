@@ -7,9 +7,16 @@
  * unconfirmed there and isn't what's loaded in `apps/web` today.
  *
  * Marketing-only additions are prefixed `--wmm-` (display type scale, max
- * content width) so they're never mistaken for a shipped app token.
+ * content width, the warm brand palette) so they're never mistaken for a
+ * shipped app token.
+ *
+ * The app tokens below are declared on `.wmm-mock` as well as `:root`. The
+ * site chrome swaps in warmer neutrals on `body` (see "Warm site chrome"), and
+ * re-declaring the app values on the dashboard mock keeps that one element on
+ * the app's real palette, which its caption promises.
  */
-:root {
+:root,
+.wmm-mock {
   --wm-bg: #f7f8fa;
   --wm-surface: #ffffff;
   --wm-surface-alt: #f1f3f6;
@@ -36,6 +43,37 @@
 }
 
 /*
+ * Warm brand palette, sampled from the logo: forest ink (#0c301c), leaf green
+ * (~#3c7a10) and the honey basket (~#cc8a3c). Marketing-only. Text pairs are
+ * checked for WCAG AA (4.5:1) against the background they sit on:
+ * honey-ink/paper 5.5, muted/paper 5.7, cream/forest 12.5,
+ * cream-muted/forest 8.0, honey-light/forest 7.0 (dark mode: 9.7, 7.2,
+ * 12.4, 7.9, 6.9).
+ */
+:root {
+  --wmm-paper: #f7f1e6;
+  --wmm-paper-2: #fbf7ef;
+  --wmm-card: #fffdf8;
+  --wmm-paper-sunk: #f1e9da;
+  --wmm-line: #e4d9c4;
+  --wmm-ink: #1d1a14;
+  --wmm-ink-muted: #675e4f;
+
+  --wmm-honey: #d9913a;
+  --wmm-honey-ink: #8f5210;
+  --wmm-leaf: #3c7a10;
+  --wmm-clay: #b5532f;
+
+  --wmm-forest: #0c301c;
+  --wmm-forest-deep: #082414;
+  --wmm-cream: #f5eedf;
+  --wmm-cream-muted: #c9c0aa;
+  --wmm-honey-light: #e8a854;
+  --wmm-leaf-light: #a9d173;
+  --wmm-sage: #9fb39a;
+}
+
+/*
  * Single source of truth for the light/dark logo swap: both rules live here
  * (not split across a media query in this file and a scoped `display: block`
  * layout rule in BaseLayout.astro), because a component-scoped selector like
@@ -56,6 +94,25 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
+    --wmm-paper: #14120e;
+    --wmm-paper-2: #1a1712;
+    --wmm-card: #1f1b15;
+    --wmm-paper-sunk: #26211a;
+    --wmm-line: #3a3326;
+    --wmm-ink: #ece6da;
+    --wmm-ink-muted: #aaa08c;
+
+    --wmm-honey: #e0a24f;
+    --wmm-honey-ink: #e8b066;
+    --wmm-leaf: #8cc152;
+    --wmm-clay: #e0805a;
+
+    --wmm-forest: #10301f;
+    --wmm-forest-deep: #0a1f14;
+  }
+
+  :root,
+  .wmm-mock {
     color-scheme: dark;
     --wm-bg: #0f1216;
     --wm-surface: #171b21;
@@ -84,7 +141,16 @@ html {
   color-scheme: light dark;
 }
 
+/* Warm site chrome: everything outside `.wmm-mock` uses the warm neutrals. */
 body {
+  --wm-bg: var(--wmm-paper);
+  --wm-surface: var(--wmm-card);
+  --wm-surface-alt: var(--wmm-paper-sunk);
+  --wm-border: var(--wmm-line);
+  --wm-text: var(--wmm-ink);
+  --wm-text-muted: var(--wmm-ink-muted);
+  --wm-shadow: 0 1px 2px rgb(60 40 10 / 7%), 0 2px 6px rgb(60 40 10 / 5%);
+
   margin: 0;
   background: var(--wm-bg);
   color: var(--wm-text);
@@ -95,6 +161,13 @@ body {
 
 a {
   color: var(--wm-accent);
+  text-decoration-color: var(--wmm-honey);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 3px;
+}
+
+::selection {
+  background: color-mix(in srgb, var(--wmm-honey) 40%, transparent);
 }
 
 code, pre {
@@ -120,7 +193,7 @@ pre {
 }
 
 .wmm-section--alt {
-  background: var(--wm-surface);
+  background: var(--wmm-paper-2);
   border-top: 1px solid var(--wm-border);
   border-bottom: 1px solid var(--wm-border);
 }
@@ -135,7 +208,20 @@ h1, h2, h3, h4 {
   font-weight: 600;
   letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--wm-text-muted);
+  color: var(--wmm-honey-ink);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* A short woven stripe (honey, leaf, honey) ahead of every eyebrow. */
+.wmm-eyebrow::before {
+  content: "";
+  flex: none;
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+  background: linear-gradient(90deg, var(--wmm-honey) 0 40%, var(--wmm-leaf) 40% 60%, var(--wmm-honey) 60%);
 }
 
 .wmm-lede {
@@ -169,15 +255,36 @@ h1, h2, h3, h4 {
   border: 1px solid transparent;
 }
 
+.wmm-btn {
+  transition: transform 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+
+.wmm-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgb(60 40 10 / 12%);
+}
+
 .wmm-btn--primary {
   background: var(--wm-accent);
   color: var(--wm-accent-text);
 }
 
 .wmm-btn--secondary {
-  background: transparent;
+  background: var(--wm-surface);
   color: var(--wm-text);
   border-color: var(--wm-border);
+}
+
+.wmm-btn--secondary:hover {
+  border-color: var(--wmm-honey);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wmm-btn,
+  .wmm-btn:hover {
+    transition: none;
+    transform: none;
+  }
 }
 
 .wmm-btn-row {
@@ -232,6 +339,76 @@ th {
 /* Shared across sub-pages (index.astro has its own scoped equivalents) */
 .wmm-page-hero {
   padding-top: 96px;
+}
+
+/*
+ * Basket-weave texture for hero sections: short honey strokes alternating
+ * horizontal and vertical, faded out toward the content so it never sits
+ * behind body text at full strength.
+ */
+.wmm-page-hero,
+.wmm-woven {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+.wmm-page-hero::before,
+.wmm-woven::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cg fill='none' stroke='%23c07a2c' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 5.5h12M3 12.5h12M24 3v12M31 3v12M21 23.5h12M21 30.5h12M6 21v12M13 21v12'/%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.16;
+  mask-image: radial-gradient(ellipse 70% 90% at 100% 0%, #000 0%, transparent 75%);
+}
+
+@media (prefers-color-scheme: dark) {
+  .wmm-page-hero::before,
+  .wmm-woven::before {
+    opacity: 0.12;
+  }
+}
+
+/* Honey marker highlight behind a phrase. */
+.wmm-highlight {
+  background: linear-gradient(transparent 62%, color-mix(in srgb, var(--wmm-honey) 38%, transparent) 62% 92%, transparent 92%);
+  padding: 0 2px;
+}
+
+/*
+ * Forest-green band: one colour-blocked section per page at most. Remaps the
+ * text tokens so anything inside (steps, code, buttons) reads on dark green in
+ * both colour schemes.
+ */
+.wmm-band {
+  --wm-text: var(--wmm-cream);
+  --wm-text-muted: var(--wmm-cream-muted);
+  --wm-border: color-mix(in srgb, var(--wmm-cream) 18%, transparent);
+  --wm-accent: var(--wmm-leaf-light);
+  --wm-accent-text: #0c301c;
+
+  background: var(--wmm-forest);
+  color: var(--wm-text);
+}
+
+.wmm-band .wmm-eyebrow {
+  color: var(--wmm-honey-light);
+}
+
+.wmm-band .wmm-btn--secondary {
+  background: transparent;
+}
+
+.wmm-band pre {
+  background: var(--wmm-forest-deep);
+  border-color: color-mix(in srgb, var(--wmm-cream) 12%, transparent);
+  color: var(--wmm-cream);
+}
+
+.wmm-band :not(pre) > code {
+  color: var(--wmm-honey-light);
 }
 
 .wmm-page-hero h1 {

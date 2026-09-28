@@ -85,8 +85,7 @@ const external = [
     <footer class="wmm-footer">
       <div class="wmm-container wmm-footer__inner">
         <div class="wmm-footer__brand">
-          <img class="light-logo" src="/img/icons/wickermoney-icon-dark-green.png" alt="" width="28" height="28" />
-          <img class="dark-logo" src="/img/icons/wickermoney-icon-dark-green-dark.png" alt="" width="28" height="28" />
+          <img src="/img/icons/wickermoney-icon-cream.png" alt="" width="40" height="40" />
           <p>Wicker Money is self-hosted personal finance software, built by Jeremy Reed. Not backed by anyone.</p>
         </div>
         <div class="wmm-footer__cols">
@@ -117,9 +116,13 @@ const external = [
     </footer>
 
     <style>
+      /* Woven stripe across the top of every page: leaf, honey, forest. */
       .wmm-header {
         border-bottom: 1px solid var(--wm-border);
         background: var(--wm-surface);
+        border-top: 4px solid transparent;
+        border-image: repeating-linear-gradient(90deg, var(--wmm-leaf) 0 48px, var(--wmm-honey) 48px 96px, var(--wmm-forest) 96px 120px) 1;
+        border-image-width: 4px 0 0 0;
       }
       .wmm-header__inner {
         display: flex;
@@ -184,8 +187,16 @@ const external = [
         border: 0;
       }
       .wmm-footer {
-        border-top: 1px solid var(--wm-border);
+        --wm-text: var(--wmm-cream);
+        --wm-text-muted: var(--wmm-cream-muted);
+        --wm-accent: var(--wmm-leaf-light);
+
+        background: var(--wmm-forest);
+        color: var(--wm-text);
         margin-top: 64px;
+      }
+      .wmm-footer__brand img {
+        border-radius: 10px;
       }
       .wmm-footer__inner {
         display: flex;
@@ -215,7 +226,7 @@ const external = [
         font-size: 0.8125rem;
         text-transform: uppercase;
         letter-spacing: 0.04em;
-        color: var(--wm-text-muted);
+        color: var(--wmm-honey-light);
       }
       .wmm-footer ul {
         list-style: none;
