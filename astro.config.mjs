@@ -8,5 +8,9 @@ import sitemap from '@astrojs/sitemap'
 // pattern (see that repo's docusaurus.config.ts for the same reasoning).
 export default defineConfig({
   site: 'https://wicker.money',
+  // Astro 7 defaults to 'jsx', which drops the line break between text and a
+  // tag on the next line ("See<a>..." renders as "Seewhat's shipped"). `true`
+  // collapses whitespace to a single space instead, the way HTML does.
+  compressHTML: true,
   integrations: [sitemap()],
 })
