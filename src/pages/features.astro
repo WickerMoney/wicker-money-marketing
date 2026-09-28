@@ -14,18 +14,24 @@ const now = [
 ]
 
 const next = [
-  'Recurring items management in core, on its own page — the table exists, nothing populates it yet.',
-  'An upcoming bills & income widget: read-only, from today through your next payday, with a shortfall warning against each account’s buffer amount.',
-  'Paid/landed matching — matching expected recurring items against real transactions.',
-  'Forecasting, built on top of recurring items.',
-  'A plugin picker to enable and disable plugins from the UI.',
-  'A debt payoff plugin (snowball and avalanche).',
+  'Recurring items management in core, on its own page: create, edit and end recurring bills and income. The table and its export exist today, but nothing can populate it yet.',
+  'An upcoming bills & income widget: read-only, from today through your next payday, with expected income and bills at their nominal dates and a warning if a checking account would fall below its buffer amount before payday. Credit card and loan payments count as bills; transfers between your own accounts sit behind an “all” option.',
+  'Paid/landed matching for that widget — matching expected recurring items against real transactions, which also settles weekend and holiday shifts as expected versus cleared.',
+  'Forecasting, using recurring items for the known part of the future.',
+  'A plugin picker to enable and disable plugins from the UI. Plugins in the same area, such as several budgeting approaches, can be enabled together.',
+  'A debt payoff plugin (snowball and avalanche), keeping its own per-debt balance, rate and minimum payment.',
+  'A settings danger zone with two separately-confirmed actions: “erase my data” (your own rows across core and every plugin) and “erase this entire instance”.',
+  'A per-plugin theme contribution point, so a plugin can ship an additional theme alongside the built-in light/dark/system switcher.',
 ]
 
 const later = [
-  'Cross-plugin data access — today a plugin only sees core tables, not another plugin’s data.',
+  'Cross-plugin data access — a plugin reading data another plugin owns, such as debt details feeding FIRE, or comparing two budgeting plugins side by side. Today a plugin only sees core tables.',
   'An envelope budgeting plugin alongside the existing budgets plugin.',
-  'FIRE plugins (lean, fat, barista, coast), comparable side by side, once forecasting exists.',
+  'FIRE plugins (lean, fat, barista, coast), comparable side by side on a shared calculation module and light enough to run several at once, once forecasting exists.',
+  'Extending the shortfall warning to savings and other accounts, measured against each account’s buffer amount, for planning larger purchases.',
+  'Editing an occurrence from the calendar widget, and a month grid view.',
+  'Suggesting recurring items by detecting patterns in your transaction history.',
+  'Themes as a data-only plugin type: a validated set of design tokens, no code.',
   'Third-party plugin installation — blocked on plugin isolation, which doesn’t exist yet; all plugin code today runs fully trusted.',
   'Freezing the plugin API (SDK_MAJOR_VERSION) ahead of 1.0.',
 ]
