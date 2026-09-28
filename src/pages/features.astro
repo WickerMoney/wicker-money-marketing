@@ -12,7 +12,6 @@ const now = [
   'First tagged release (v0.1.0): self-hosting quickstart, a published container image, published plugin-sdk and ui-kit.',
   'Hardening first-run and deployment: registration policy, secure cookie guidance.',
   'A semimonthly recurrence frequency, added now because it’s a core database enum — cheaper before the first tag than after.',
-  'Filling gaps in the design tokens (a chart palette, among others) before plugins come to depend on them.',
 ]
 
 const next = [
@@ -97,7 +96,7 @@ const later = [
       <h2>How the plugin model works</h2>
       <p class="wmm-lede" style="max-width: 72ch;">
         The core owns identity, money movement and the app shell. Everything that
-        <em>interprets</em> money &mdash; budgets, forecasting, net worth, FIRE, importers
+        <em>interprets</em> money &mdash; budgets, forecasting, FIRE, importers
         &mdash; is a plugin built against <code>@wickermoney/plugin-sdk</code>. A fresh
         install is useful on its own; bundled plugins hold no privileges a third-party
         plugin couldn't also request.
