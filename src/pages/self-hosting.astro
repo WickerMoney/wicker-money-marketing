@@ -46,7 +46,7 @@ const requirements = [
       <h2>Why Postgres is a hard requirement</h2>
       <p class="wmm-lede" style="max-width: 72ch;">
         The core owns identity and the ledger; everything that interprets money —
-        budgets, forecasting, net worth, importers — is a plugin. Keeping one plugin's
+        budgets, forecasting, importers — is a plugin. Keeping one plugin's
         data invisible to another (and to the wrong user) is enforced with Postgres
         row-level security and per-plugin database roles derived from each plugin's
         manifest, not just checked in application code. That's a deliberate,
