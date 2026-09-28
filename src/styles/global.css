@@ -14,26 +14,47 @@
  * site chrome swaps in warmer neutrals on `body` (see "Warm site chrome"), and
  * re-declaring the app values on the dashboard mock keeps that one element on
  * the app's real palette, which its caption promises.
+ *
+ * Theme: every colour is written once as `light-dark(<light>, <dark>)`, and the
+ * `color-scheme` on <html> picks the side. With no `data-theme` it follows the
+ * OS; the header toggle sets `data-theme="light"` or `"dark"` (same attribute
+ * and meaning as the app). `light-dark()` needs Chrome 123, Firefox 120 or
+ * Safari 17.5; older browsers ignore these colours rather than falling back
+ * to light, so the page shows with default browser colours.
  */
+:root {
+  color-scheme: light dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
 :root,
 .wmm-mock {
-  --wm-bg: #f7f8fa;
-  --wm-surface: #ffffff;
-  --wm-surface-alt: #f1f3f6;
-  --wm-border: #dfe3e9;
-  --wm-text: #16191d;
-  --wm-text-muted: #5b6472;
-  --wm-accent: #2e500d;
-  --wm-accent-text: #ffffff;
-  --wm-positive: #0c7e65;
-  --wm-negative: #c0392b;
-  --wm-warning: #b7791f;
+  --wm-bg: light-dark(#f7f8fa, #0f1216);
+  --wm-surface: light-dark(#ffffff, #171b21);
+  --wm-surface-alt: light-dark(#f1f3f6, #1e232b);
+  --wm-border: light-dark(#dfe3e9, #2b323c);
+  --wm-text: light-dark(#16191d, #e8eaed);
+  --wm-text-muted: light-dark(#5b6472, #9aa4b2);
+  --wm-accent: light-dark(#2e500d, #a9d173);
+  --wm-accent-text: light-dark(#ffffff, #0c301c);
+  --wm-positive: light-dark(#0c7e65, #29a987);
+  --wm-negative: light-dark(#c0392b, #e5736a);
+  --wm-warning: light-dark(#b7791f, #e0a84a);
 
   --wm-radius: 10px;
   --wm-radius-sm: 6px;
   --wm-gap: 16px;
   --wm-gap-sm: 8px;
-  --wm-shadow: 0 1px 2px rgb(16 24 40 / 6%), 0 1px 3px rgb(16 24 40 / 4%);
+  --wm-shadow:
+    0 1px 2px light-dark(rgb(16 24 40 / 6%), rgb(0 0 0 / 40%)),
+    0 1px 3px light-dark(rgb(16 24 40 / 4%), transparent);
   --wm-font: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   --wm-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, monospace;
 
@@ -51,21 +72,21 @@
  * 12.4, 7.9, 6.9).
  */
 :root {
-  --wmm-paper: #f7f1e6;
-  --wmm-paper-2: #fbf7ef;
-  --wmm-card: #fffdf8;
-  --wmm-paper-sunk: #f1e9da;
-  --wmm-line: #e4d9c4;
-  --wmm-ink: #1d1a14;
-  --wmm-ink-muted: #675e4f;
+  --wmm-paper: light-dark(#f7f1e6, #14120e);
+  --wmm-paper-2: light-dark(#fbf7ef, #1a1712);
+  --wmm-card: light-dark(#fffdf8, #1f1b15);
+  --wmm-paper-sunk: light-dark(#f1e9da, #26211a);
+  --wmm-line: light-dark(#e4d9c4, #3a3326);
+  --wmm-ink: light-dark(#1d1a14, #ece6da);
+  --wmm-ink-muted: light-dark(#675e4f, #aaa08c);
 
-  --wmm-honey: #d9913a;
-  --wmm-honey-ink: #8f5210;
-  --wmm-leaf: #3c7a10;
-  --wmm-clay: #b5532f;
+  --wmm-honey: light-dark(#d9913a, #e0a24f);
+  --wmm-honey-ink: light-dark(#8f5210, #e8b066);
+  --wmm-leaf: light-dark(#3c7a10, #8cc152);
+  --wmm-clay: light-dark(#b5532f, #e0805a);
 
-  --wmm-forest: #0c301c;
-  --wmm-forest-deep: #082414;
+  --wmm-forest: light-dark(#0c301c, #10301f);
+  --wmm-forest-deep: light-dark(#082414, #0a1f14);
   --wmm-cream: #f5eedf;
   --wmm-cream-muted: #c9c0aa;
   --wmm-honey-light: #e8a854;
@@ -74,17 +95,14 @@
 }
 
 /*
- * Single source of truth for the light/dark logo swap: both rules live here
- * (not split across a media query in this file and a scoped `display: block`
- * layout rule in BaseLayout.astro), because a component-scoped selector like
- * `.wmm-brand img` compiles to a higher-specificity selector than a bare
- * `.dark-logo` class and would silently win the cascade regardless of theme
- * — which is exactly what caused both logos to render at once. These base
- * (light-mode default) rules must come BEFORE the dark-mode media query
- * below, so the media query's override wins the cascade in dark mode.
+ * Single source of truth for the light/dark logo swap. It lives here, not in
+ * a component, because a scoped selector like `.wmm-brand img` outranks a bare
+ * `.dark-logo` class and would win regardless of theme (that once showed both
+ * logos at once). Images can't use light-dark(), so this is the one place the
+ * theme rule is spelled out twice: an explicit `data-theme="dark"`, and the OS
+ * preference unless the visitor picked light.
  */
-.light-logo,
-.dark-logo {
+.light-logo {
   display: block;
 }
 
@@ -92,53 +110,27 @@
   display: none;
 }
 
+:root[data-theme="dark"] .light-logo {
+  display: none;
+}
+
+:root[data-theme="dark"] .dark-logo {
+  display: block;
+}
+
 @media (prefers-color-scheme: dark) {
-  :root {
-    --wmm-paper: #14120e;
-    --wmm-paper-2: #1a1712;
-    --wmm-card: #1f1b15;
-    --wmm-paper-sunk: #26211a;
-    --wmm-line: #3a3326;
-    --wmm-ink: #ece6da;
-    --wmm-ink-muted: #aaa08c;
-
-    --wmm-honey: #e0a24f;
-    --wmm-honey-ink: #e8b066;
-    --wmm-leaf: #8cc152;
-    --wmm-clay: #e0805a;
-
-    --wmm-forest: #10301f;
-    --wmm-forest-deep: #0a1f14;
+  :root:not([data-theme="light"]) .light-logo {
+    display: none;
   }
 
-  :root,
-  .wmm-mock {
-    color-scheme: dark;
-    --wm-bg: #0f1216;
-    --wm-surface: #171b21;
-    --wm-surface-alt: #1e232b;
-    --wm-border: #2b323c;
-    --wm-text: #e8eaed;
-    --wm-text-muted: #9aa4b2;
-    --wm-accent: #a9d173;
-    --wm-accent-text: #0c301c;
-    --wm-positive: #29a987;
-    --wm-negative: #e5736a;
-    --wm-warning: #e0a84a;
-    --wm-shadow: 0 1px 2px rgb(0 0 0 / 40%);
+  :root:not([data-theme="light"]) .dark-logo {
+    display: block;
   }
-
-  .light-logo { display: none; }
-  .dark-logo { display: block; }
 }
 
 
 * {
   box-sizing: border-box;
-}
-
-html {
-  color-scheme: light dark;
 }
 
 /* Warm site chrome: everything outside `.wmm-mock` uses the warm neutrals. */
@@ -360,15 +352,8 @@ th {
   inset: 0;
   z-index: -1;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cg fill='none' stroke='%23c07a2c' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M3 5.5h12M3 12.5h12M24 3v12M31 3v12M21 23.5h12M21 30.5h12M6 21v12M13 21v12'/%3E%3C/g%3E%3C/svg%3E");
-  opacity: 0.16;
+  opacity: 0.14;
   mask-image: radial-gradient(ellipse 70% 90% at 100% 0%, #000 0%, transparent 75%);
-}
-
-@media (prefers-color-scheme: dark) {
-  .wmm-page-hero::before,
-  .wmm-woven::before {
-    opacity: 0.12;
-  }
 }
 
 /* Honey marker highlight behind a phrase. */
