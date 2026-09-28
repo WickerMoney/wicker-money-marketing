@@ -19,6 +19,12 @@ const nav = [
 
 // Off-site links: rendered smaller, open in a new tab, and marked with an
 // external-link glyph plus screen-reader text so the new-tab behavior isn't a surprise.
+// Social accounts for the footer. Empty until it's decided which accounts to
+// link (Wicker Money's own, or the King Dreams creator brand); the row only
+// renders once this has entries. `icon` is the inner markup of a 24x24
+// viewBox <svg> drawn with fill="currentColor" (Simple Icons' CC0 paths fit).
+const socials: { href: string; label: string; icon: string }[] = []
+
 const external = [
   { href: 'https://wickermoney.dev', label: 'Docs', icon: null },
   { href: 'https://github.com/wickermoney/wicker-money', label: 'GitHub', icon: 'github' },
@@ -101,8 +107,21 @@ const external = [
     <footer class="wmm-footer">
       <div class="wmm-container wmm-footer__inner">
         <div class="wmm-footer__brand">
-          <img src="/img/icons/wickermoney-icon-cream.png" alt="" width="40" height="40" />
+          <!-- The footer is forest green in both themes, so it always uses the dark-mode logo. -->
+          <img class="wmm-footer__logo" src="/img/dark-mode/wickermoney-logo-primary.png" alt="Wicker Money: your money, your way" width="220" height="70" />
           <p>Wicker Money is self-hosted personal finance software, built by Jeremy Reed. Not backed by anyone.</p>
+          {socials.length > 0 && (
+            <ul class="wmm-footer__social" aria-label="Wicker Money elsewhere">
+              {socials.map((social) => (
+                <li>
+                  <a href={social.href} target="_blank" rel="noopener noreferrer me" title={social.label}>
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="currentColor" aria-hidden="true" set:html={social.icon} />
+                    <span class="wmm-sr-only">{social.label} (opens in a new tab)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
         <div class="wmm-footer__cols">
           <div>
@@ -316,8 +335,28 @@ const external = [
         color: var(--wm-text);
         margin-top: 64px;
       }
-      .wmm-footer__brand img {
-        border-radius: 10px;
+      .wmm-footer__logo {
+        width: 220px;
+        height: auto;
+      }
+      .wmm-footer .wmm-footer__social {
+        flex-direction: row;
+        gap: 8px;
+        margin-top: 4px;
+      }
+      .wmm-footer .wmm-footer__social a {
+        display: grid;
+        place-items: center;
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        border: 1px solid color-mix(in srgb, var(--wmm-cream) 25%, transparent);
+        color: var(--wmm-cream);
+      }
+      .wmm-footer .wmm-footer__social a:hover {
+        background: var(--wmm-honey-light);
+        border-color: var(--wmm-honey-light);
+        color: var(--wmm-forest);
       }
       .wmm-footer__inner {
         display: flex;
