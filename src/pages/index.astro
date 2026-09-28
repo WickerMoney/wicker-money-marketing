@@ -151,14 +151,23 @@ const pillars = [
           <a class="wmm-btn wmm-btn--primary" href="/self-hosting">Full self-hosting guide</a>
         </div>
       </div>
-      <pre><code>docker pull ghcr.io/wickermoney/wicker-money:latest
+      <pre><code><span class="wmm-code-comment"># Download the published image</span>
+docker pull ghcr.io/wickermoney/wicker-money:latest
 
+<span class="wmm-code-comment"># One-time: a shared network (e.g. for a reverse
+# proxy) and a volume so app data survives upgrades</span>
 docker network create wickermoney_default
 docker volume create wickermoney_data
 
+<span class="wmm-code-comment"># Run database migrations, then exit. Connects as
+# the owner role (DATABASE_OWNER_URL in .env) to
+# create schemas, row-level security policies and
+# the low-privilege role the app runs as</span>
 docker run --rm --env-file .env \
-  wickermoney node dist/db/cli.js up
+  ghcr.io/wickermoney/wicker-money:latest \
+  node dist/db/cli.js up
 
+<span class="wmm-code-comment"># Start the app in the background</span>
 docker compose up -d</code></pre>
     </div>
   </section>
@@ -196,6 +205,9 @@ docker compose up -d</code></pre>
     .wmm-card__icon {
       font-size: 1.75rem;
       margin-bottom: 8px;
+    }
+    .wmm-code-comment {
+      color: var(--wm-text-muted);
     }
     .wmm-reality {
       display: grid;
