@@ -2,10 +2,15 @@
 import { getCollection, render } from 'astro:content'
 import BaseLayout from '../layouts/BaseLayout.astro'
 
+// Newest first. Two releases can share a date (0.2.0 and 0.2.1 did), so
+// the version breaks the tie; `numeric` sorts 0.10.0 after 0.9.0.
 const entries = (await getCollection('changelog')).sort((a, b) => {
   if (a.data.unreleased) return -1
   if (b.data.unreleased) return 1
-  return (b.data.date ?? '').localeCompare(a.data.date ?? '')
+  return (
+    (b.data.date ?? '').localeCompare(a.data.date ?? '') ||
+    (b.data.version ?? '').localeCompare(a.data.version ?? '', undefined, { numeric: true })
+  )
 })
 ---
 
