@@ -63,6 +63,7 @@ const requirements = [
         <li><strong>Point it at Postgres.</strong> The app connects as a least-privilege role that owns nothing and can't bypass row-level security. Migrations connect as a separate owner role that can. Both point at the same database.</li>
         <li><strong>Run migrations.</strong> The image doesn't migrate on start, on purpose — that would mean the running API needs owner credentials, which it deliberately doesn't have.</li>
         <li><strong>Start it.</strong> <code>docker compose up -d</code>. Put a reverse proxy in front if you want TLS and a real domain; set <code>TRUST_PROXY=true</code> if you do.</li>
+        <li><strong>Sign up first.</strong> The first account on an instance is its owner &mdash; the one who can turn plugins on and off. Anyone who signs up after you is a member, with their own data. Once everyone who needs an account has one, set <code>REGISTRATION_ENABLED=false</code>.</li>
       </ol>
       <div class="wmm-btn-row">
         <a class="wmm-btn wmm-btn--primary" href="https://wickermoney.dev/docs/self-hosting/quickstart">Open the full quickstart</a>
