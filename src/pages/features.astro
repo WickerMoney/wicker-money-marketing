@@ -5,29 +5,30 @@ const shipped = [
   ['Auth & ledger', 'Users, accounts, categories, rules, transactions and splits — all under row-level security. Account balances are derived from the ledger, never stored.'],
   ['App shell & plugin host', 'Module Federation host with dashboard widgets contributed by plugins, and per-plugin database roles derived from each plugin’s manifest.'],
   ['Import & categorization', 'CSV import with saved column mappings, duplicate detection and batch undo. Category rules with a preview, plus triage on the Transactions page.'],
-  ['Budgets plugin', 'Per-category budgets with per-line rollover.'],
+  ['Self-hosting release (v0.1.0)', 'A self-hosting quickstart, a published container image, the plugin SDK and UI kit on npm, and a light/dark/system theme switch.'],
+  ['Recurring items & Until payday (v0.2.0)', 'A Recurring page for income, bills, debt payments and transfers, with split paychecks as one item. The Until payday widget shows what’s safe to spend before your next paycheck and warns, per account, before a balance drops below its buffer.'],
+  ['Forecast & time zone (v0.2.1)', 'A Forecast page projecting one account’s daily balance from its recurring items, out to 90 days, 6 months or the end of the year. “Today” follows your own time zone.'],
+  ['Paid / landed matching (v0.3.0, v0.4.0)', 'Match a transaction to the recurring item it paid, from the Recurring page or the Transactions page, so nothing is counted twice. Skip, move or change one occurrence, see late payments flagged, and dismiss a wrong suggestion with “Not this”.'],
+  ['Budgets plugin', 'Per-category monthly budgets with per-line rollover, plus budget windows (v0.3.0): one amount for one category across a date range, like holiday gifts.'],
+  ['Plugin manager & roles (v0.4.0)', 'The instance’s owner turns plugins on and off from Settings, applied live, with each plugin’s data kept while it’s off. The first account is the owner; later sign-ups are members.'],
+  ['Errors on the field (v0.4.0)', 'Every form checks what it can before sending and shows each problem under the field it’s about.'],
 ]
 
 const now = [
-  'First tagged release (v0.1.0): self-hosting quickstart, a published container image, published plugin-sdk and ui-kit.',
-  'Hardening first-run and deployment: registration policy, secure cookie guidance.',
+  'A screen for owners to change another account’s role, instead of SQL.',
+  'A layout pass on the Transactions table, which is crowded since the Recurring column was added.',
+  'A settings danger zone with two separately-confirmed actions: “erase my data” (your own rows across core and every plugin) and, for an owner, “erase this entire instance”.',
 ]
 
 const next = [
-  'Recurring items management in core, on its own page: create, edit and end recurring bills and income. The table and its export exist today, but nothing can populate it yet.',
-  'An upcoming bills & income widget: read-only, from today through your next payday, with expected income and bills at their nominal dates and a warning if a checking account would fall below its buffer amount before payday. Credit card and loan payments count as bills; transfers between your own accounts sit behind an “all” option.',
-  'Paid/landed matching for that widget — matching expected recurring items against real transactions, which also settles weekend and holiday shifts as expected versus cleared.',
-  'Forecasting, using recurring items for the known part of the future.',
-  'A plugin picker to enable and disable plugins from the UI. Plugins in the same area, such as several budgeting approaches, can be enabled together.',
   'A debt payoff plugin (snowball and avalanche), keeping its own per-debt balance, rate and minimum payment.',
-  'A settings danger zone with two separately-confirmed actions: “erase my data” (your own rows across core and every plugin) and “erase this entire instance”.',
   'A per-plugin theme contribution point, so a plugin can ship an additional theme alongside the built-in light/dark/system switcher.',
 ]
 
 const later = [
   'Cross-plugin data access — a plugin reading data another plugin owns, such as debt details feeding net worth or FIRE, or comparing two budgeting plugins side by side. Today a plugin only sees core tables.',
   'An envelope budgeting plugin alongside the existing budgets plugin.',
-  'FIRE plugins (lean, fat, barista, coast), comparable side by side on a shared calculation module and light enough to run several at once, once forecasting exists.',
+  'FIRE plugins (lean, fat, barista, coast), comparable side by side on a shared calculation module and light enough to run several at once.',
   'Extending the shortfall warning to savings and other accounts, measured against each account’s buffer amount, for planning larger purchases.',
   'Editing an occurrence from the calendar widget, and a month grid view.',
   'Suggesting recurring items by detecting patterns in your transaction history.',
@@ -39,7 +40,7 @@ const later = [
 
 <BaseLayout
   title="Features"
-  description="What's actually shipped in Wicker Money today, what's scoped for the first release, and what's next — sourced directly from the project's own roadmap, not marketing copy."
+  description="What's actually shipped in Wicker Money today, what's being worked on now, and what's next — sourced directly from the project's own roadmap, not marketing copy."
 >
   <section class="wmm-section wmm-page-hero">
     <div class="wmm-container">
@@ -55,7 +56,7 @@ const later = [
 
   <section class="wmm-section wmm-section--alt">
     <div class="wmm-container">
-      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Milestones M1&ndash;M3</h2>
+      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through v0.4.0</h2>
       <table>
         <tbody>
           {shipped.map(([name, note]) => (
@@ -73,7 +74,7 @@ const later = [
   <section class="wmm-section">
     <div class="wmm-container wmm-roadmap-grid">
       <div>
-        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> Scope of v0.1.0</h2>
+        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> Polish after the plugin manager</h2>
         <ul>
           {now.map((item) => <li>{item}</li>)}
         </ul>
@@ -104,7 +105,9 @@ const later = [
         <em>interprets</em> money &mdash; budgets, forecasting, FIRE, importers
         &mdash; is a plugin built against <code>@wickermoney/plugin-sdk</code>. A fresh
         install is useful on its own; bundled plugins hold no privileges a third-party
-        plugin couldn't also request.
+        plugin couldn't also request. The instance's owner can turn any plugin on or
+        off from Settings, and a plugin that's off keeps its data until it's turned
+        back on.
       </p>
       <p class="wmm-lede" style="max-width: 72ch;">
         The app and bundled plugins are AGPL-3.0. <code>plugin-sdk</code> and
