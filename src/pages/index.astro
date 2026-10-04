@@ -96,11 +96,14 @@ const icons: Record<string, string> = {
               <li class="is-active">Dashboard</li>
               <li>Accounts</li>
               <li>Transactions</li>
+              <li>Recurring</li>
               <li>Categories</li>
             </ul>
             <p class="wmm-mock__sidebar-label">Plugins</p>
             <ul>
+              <li>Forecast</li>
               <li>Budgets</li>
+              <li>Import</li>
             </ul>
           </aside>
           <div class="wmm-mock__main">
@@ -143,8 +146,9 @@ const icons: Record<string, string> = {
       </div>
       <p class="wmm-mock__caption">
         Illustrative, built from the app's real design tokens and its actual nav
-        (Dashboard, Accounts, Transactions, Categories) plus the bundled Budgets
-        plugin — not a hosted demo, and not a feature list. See
+        (Dashboard, Accounts, Transactions, Recurring, Categories) plus the
+        bundled Forecast, Budgets and Import plugins — not a hosted demo, and not
+        a feature list. See
         <a href="/features">what's shipped vs. planned</a> for that.
       </p>
     </div>
@@ -195,9 +199,11 @@ docker compose up -d</code></pre>
       <p class="wmm-eyebrow">Where things stand</p>
       <h2>Pre-1.0, one maintainer, <span class="wmm-highlight">built in the open.</span></h2>
       <p class="wmm-lede">
-        Auth, the ledger, the plugin shell and CSV import are shipped (milestones
-        M1&ndash;M3). That's stated plainly, not as a disclaimer &mdash; it's why the
-        roadmap moves in small, shipped pieces instead of promised dates.
+        As of v0.4.0: the ledger and CSV import, recurring items with &ldquo;Until
+        payday&rdquo; and a forecast, matching what actually landed, budgets with
+        windows, and plugins you can turn on and off. That's stated plainly, not as
+        a disclaimer &mdash; it's why the roadmap moves in small, shipped pieces
+        instead of promised dates.
       </p>
       <div class="wmm-btn-row">
         <a class="wmm-btn wmm-btn--primary" href="/features">See what's built vs. planned</a>
