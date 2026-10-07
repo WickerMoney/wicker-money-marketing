@@ -4,10 +4,68 @@ import '../styles/global.css'
 interface Props {
   title: string
   description: string
+  /** Open Graph type. Defaults to "website". */
+  ogType?: 'website' | 'article'
+  /** Keep the page out of search results (used by the 404 page). */
+  noindex?: boolean
+  /** Extra schema.org nodes for this page, merged into the shared @graph. */
+  jsonLd?: Record<string, unknown>[]
 }
 
-const { title, description } = Astro.props
+const { title, description, ogType = 'website', noindex = false, jsonLd = [] } = Astro.props
 const canonicalURL = new URL(Astro.url.pathname, Astro.site)
+
+// "Wicker Money · X" everywhere except the home page, whose title already
+// carries the brand, so it isn't doubled.
+const fullTitle = title.startsWith('Wicker Money') ? title : `${title} · Wicker Money`
+
+// 1200x630 card (the size Facebook, X, Slack, Discord and LinkedIn crop to).
+const socialImage = new URL('/img/social-card.png', Astro.site)
+const socialImageAlt = 'Wicker Money: your money, your way. Self-hosted personal finance.'
+
+// Shared structured data: who publishes the site, and the site itself. Pages
+// add their own nodes (breadcrumbs, the software listing) through `jsonLd`.
+const origin = Astro.site!.origin
+const orgId = `${origin}/#organization`
+const siteId = `${origin}/#website`
+const segments = Astro.url.pathname.split('/').filter(Boolean)
+const breadcrumbs =
+  segments.length === 0
+    ? []
+    : [
+        {
+          '@type': 'BreadcrumbList',
+          itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'Home', item: `${origin}/` },
+            { '@type': 'ListItem', position: 2, name: title, item: canonicalURL.href },
+          ],
+        },
+      ]
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': orgId,
+      name: 'Wicker Money',
+      url: `${origin}/`,
+      logo: new URL('/img/wickermoney-logo-primary.png', Astro.site).href,
+      email: 'support@wicker.money',
+      sameAs: ['https://github.com/wickermoney', 'https://github.com/wickermoney/wicker-money'],
+    },
+    {
+      '@type': 'WebSite',
+      '@id': siteId,
+      url: `${origin}/`,
+      name: 'Wicker Money',
+      description: 'Self-hosted personal finance software.',
+      inLanguage: 'en',
+      publisher: { '@id': orgId },
+    },
+    ...breadcrumbs,
+    ...jsonLd,
+  ],
+}
 
 const nav = [
   { href: '/self-hosting', label: 'Self-hosting' },
@@ -46,16 +104,31 @@ const external = [
     </script>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="canonical" href={canonicalURL} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
 
-    <title>{title} · Wicker Money</title>
+    <title>{fullTitle}</title>
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#0c301c" />
 
-    <meta property="og:type" content="website" />
-    <meta property="og:title" content={`${title} · Wicker Money`} />
+    <meta property="og:site_name" content="Wicker Money" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalURL} />
-    <meta property="og:image" content={new URL('/img/wickermoney-logo-primary.png', Astro.site)} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={socialImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
+
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/rss+xml" title="Wicker Money changelog" href="/changelog.xml" />
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon/favicon-16.png" />

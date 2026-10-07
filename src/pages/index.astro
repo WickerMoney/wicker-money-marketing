@@ -29,10 +29,30 @@ const icons: Record<string, string> = {
   'no-ads': '<path d="M4 10v4h3l5 4V6L7 10H4z"/><path d="M16 9.5a3.5 3.5 0 0 1 0 5"/><path d="M3 3l18 18"/>',
   unlock: '<rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.6-1.7"/><path d="M12 15v2"/>',
 }
+
+// Listing for the app itself. Deliberately plain: no ratings, no version
+// number (it would go stale), and the price is the truth, free and open source.
+const softwareApplication = {
+  '@type': 'SoftwareApplication',
+  '@id': 'https://wicker.money/#software',
+  name: 'Wicker Money',
+  url: 'https://wicker.money/',
+  applicationCategory: 'FinanceApplication',
+  operatingSystem: 'Any system that runs Docker',
+  description:
+    'Self-hosted personal finance app: a thin core plus installable plugins, running on your own server with Docker and PostgreSQL.',
+  license: 'https://github.com/wickermoney/wicker-money/blob/main/LICENSE',
+  isAccessibleForFree: true,
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+  codeRepository: 'https://github.com/wickermoney/wicker-money',
+  author: { '@type': 'Person', name: 'Jeremy Reed' },
+  publisher: { '@id': 'https://wicker.money/#organization' },
+}
 ---
 
 <BaseLayout
-  title="Self-hosted personal finance"
+  title="Wicker Money: self-hosted personal finance"
+  jsonLd={[softwareApplication]}
   description="Wicker Money is a self-hosted personal finance app: a thin core plus installable plugins, built for people who want their financial data on their own server."
 >
   <section class="wmm-hero wmm-woven">
