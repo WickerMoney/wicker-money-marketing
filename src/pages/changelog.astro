@@ -35,7 +35,7 @@ const entries = (await getCollection('changelog')).sort((a, b) => {
       {entries.map(async (entry) => {
         const { Content } = await render(entry)
         return (
-          <article class="wmm-changelog-entry">
+          <article class="wmm-changelog-entry" id={entry.id}>
             <header>
               <h2>{entry.data.title}</h2>
               {entry.data.date && <p class="wmm-fineprint">{entry.data.date}</p>}
