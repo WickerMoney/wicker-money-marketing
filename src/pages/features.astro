@@ -17,6 +17,8 @@ const shipped = [
 ]
 
 const now = [
+  'Plugin platform hardening for v0.5.0: one shared server contract for plugins in the SDK, one request instead of several when the dashboard loads, a way to name the instance’s owner up front, and plainer wording about what a plugin is trusted to do.',
+  'Account allowances in the Budgets plugin: a monthly amount for one checking account, with rollover and categories you can leave out, for money that goes into an account “to spend on whatever”.',
   'A screen for owners to change another account’s role, instead of SQL.',
   'A layout pass on the Transactions table, which is crowded since the Recurring column was added.',
   'A settings danger zone with two separately-confirmed actions: “erase my data” (your own rows across core and every plugin) and, for an owner, “erase this entire instance”.',
@@ -76,7 +78,7 @@ const later = [
   <section class="wmm-section">
     <div class="wmm-container wmm-roadmap-grid">
       <div>
-        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> Polish after the plugin manager</h2>
+        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> Heading for v0.5.0, and polish after the plugin manager</h2>
         <ul>
           {now.map((item) => <li>{item}</li>)}
         </ul>
@@ -106,8 +108,9 @@ const later = [
         The core owns identity, money movement and the app shell. Everything that
         <em>interprets</em> money &mdash; budgets, forecasting, FIRE, importers
         &mdash; is a plugin built against <code>@wickermoney/plugin-sdk</code>. A fresh
-        install is useful on its own; bundled plugins hold no privileges a third-party
-        plugin couldn't also request. The instance's owner can turn any plugin on or
+        install is useful on its own; bundled plugins are built against the same SDK a
+        third-party plugin would use, and plugin code is fully trusted today, so
+        installing third-party plugins isn't supported yet. The instance's owner can turn any plugin on or
         off from Settings, and a plugin that's off keeps its data until it's turned
         back on.
       </p>
