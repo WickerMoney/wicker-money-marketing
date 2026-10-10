@@ -14,11 +14,11 @@ const shipped = [
   ['Errors on the field (v0.4.0)', 'Every form checks what it can before sending and shows each problem under the field it’s about.'],
   ['Starter categories (v0.4.1)', 'Memberships and Domains / web hosting join the starter set; “Run setup again” adds them to an account that’s already set up.'],
   ['Phones & accessibility (v0.4.2)', 'A navigation drawer and card layouts on small screens, collapsible Categories and Rules, icon row actions, a skip link and a title for every page.'],
+  ['Plugin platform hardening (v0.5.0)', 'The plugin’s server contract in one place, stability tiers for the plugin SDK, one shared request for dashboard widgets, recurring matches that load their data once, add and edit forms in the shared dialog, and plain wording about what a plugin is and isn’t trusted to do.'],
+  ['Account allowances & owner setup (v0.5.0)', 'A monthly amount measured against one checking account on the Budgets page, with rollover and categories you can leave out, for money that goes into an account “to spend on whatever”. Set BOOTSTRAP_OWNER_EMAIL to name the owner of a new instance.'],
 ]
 
 const now = [
-  'Plugin platform hardening for v0.5.0: one shared server contract for plugins in the SDK, one request instead of several when the dashboard loads, a way to name the instance’s owner up front, labelled stability for the plugin SDK, and plainer wording about what a plugin is trusted to do.',
-  'Account allowances in the Budgets plugin: a monthly amount for one checking account, with rollover and categories you can leave out, for money that goes into an account “to spend on whatever”.',
   'A screen for owners to change another account’s role, instead of SQL.',
   'A layout pass on the Transactions table, which is crowded since the Recurring column was added.',
   'A settings danger zone with two separately-confirmed actions: “erase my data” (your own rows across core and every plugin) and, for an owner, “erase this entire instance”.',
@@ -37,8 +37,8 @@ const later = [
   'Editing an occurrence from the calendar widget, and a month grid view.',
   'Suggesting recurring items by detecting patterns in your transaction history.',
   'Themes as a data-only plugin type: a validated set of design tokens, no code.',
-  'Third-party plugin installation — blocked on plugin isolation, which doesn’t exist yet; all plugin code today runs fully trusted.',
-  'Freezing the plugin API (SDK_MAJOR_VERSION) ahead of 1.0.',
+  'Third-party plugin installation — blocked on plugin isolation, which doesn’t exist yet; all plugin code today runs fully trusted, and a bundled plugin’s server-side SQL is checked for honest mistakes, not sandboxed.',
+  'Freezing the plugin API (SDK_MAJOR_VERSION) ahead of 1.0. The SDK’s entry points now carry stability tiers; the freeze applies to the stable ones.',
 ]
 ---
 
@@ -60,7 +60,7 @@ const later = [
 
   <section class="wmm-section wmm-section--alt">
     <div class="wmm-container">
-      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through v0.4.2</h2>
+      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through v0.5.0</h2>
       <table>
         <tbody>
           {shipped.map(([name, note]) => (
@@ -78,7 +78,7 @@ const later = [
   <section class="wmm-section">
     <div class="wmm-container wmm-roadmap-grid">
       <div>
-        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> Heading for v0.5.0, and polish after the plugin manager</h2>
+        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> Polish after the plugin manager</h2>
         <ul>
           {now.map((item) => <li>{item}</li>)}
         </ul>
