@@ -7,12 +7,18 @@ unreleased: true
 
 Not released yet. This is what has landed on the main branch since v0.5.0, and
 it can still change. **Back up your database before upgrading.** This release
-adds database changes, and one of them (the new debt payoff tables) is deleted
-if you step back a version. See
+has four migrations. Going back a version means running `down` four times, and
+that deletes the new debt payoff tables and their data. See
 [Upgrading](https://wickermoney.dev/docs/self-hosting/upgrading#from-0-5-0).
 
 ### Breaking
 
+- **The data export asks for your password.** Downloading it from Settings now
+  opens a password dialog. If you call the API directly, `GET /settings/export`
+  needs a one-use ticket from the new `POST /settings/export-ticket` (good for two
+  minutes) in an `x-wickermoney-export-ticket` header; without it, the answer is
+  `403`. See the
+  [API reference](https://wickermoney.dev/docs/api/overview#settings-export-and-erase).
 - **Plugin authors:** `@wickermoney/plugin-sdk` no longer exports its manifest
   schemas (`pluginManifestSchema` and the four smaller ones). To validate a
   manifest, call `parseManifest(input)`, which returns the manifest or a readable
@@ -44,10 +50,26 @@ if you step back a version. See
   run, and `IMPORT_MAX_ROWS` raises the CSV import row limit from a fixed 50,000
   to a default of 100,000. There is also a note on running behind PgBouncer. See
   [Configuration](https://wickermoney.dev/docs/self-hosting/configuration#pool-statement-timeouts-and-the-import-limit).
+- **Plugins can run in a sandboxed frame.** Insights and Spending Trends now do:
+  they can't reach your session, cookies or the page, and they get data only
+  through the app, with a short-lived token that carries just the plugin's grants.
+  The other five bundled plugins still run in the app's own page. A test suite
+  that attacks the sandbox runs on every pull request. The sandbox has known gaps
+  (in Chromium it doesn't stop prerender or WebRTC requests, so a plugin you can
+  grant your transactions to could send them out), and it is experimental and not
+  yet independently reviewed. See
+  [Plugins](https://wickermoney.dev/docs/features/plugins#how-much-a-plugin-is-trusted).
+- **An operator can add a third-party UI plugin by hand.** Set
+  `PLUGIN_REMOTE_ORIGINS` and put a manifest with an integrity pin in
+  `PLUGIN_MANIFEST_DIR`; it starts switched off and runs only in a frame, with no
+  server code. Both settings are empty by default, and there is no install flow or
+  catalog. See
+  [Adding a third-party plugin](https://wickermoney.dev/docs/features/plugins#adding-a-third-party-plugin-experimental).
 - **Plugin SDK:** a stable `@wickermoney/plugin-sdk/date` entry point for the
-  calendar helpers, and an experimental `/isolated` entry point that defines how
-  a plugin could run in a sandboxed frame. Nothing loads plugins that way yet, so
-  plugin code still runs fully trusted.
+  calendar helpers, an experimental `/isolated` entry point for plugins that run
+  in a frame, and an optional `integrity` pin on the manifest. A manifest that
+  declares `network:outbound`, `schedule:daily` or `notify` is now refused, since
+  the app implements none of them.
 - **Smaller API additions:** `?fields=basic` on the account list, `accountName`
   on upcoming recurring items, and `truncated` flags on recurring matching.
 
@@ -60,9 +82,12 @@ if you step back a version. See
   page re-renders less, and Budgets and recurring matching read the ledger fewer
   times. Sorting the ledger by merchant or amount is backed by new indexes; on a
   very large ledger, building them can briefly block writes during the upgrade.
-- **Plainer trust wording.** The docs now match what the code enforces about how
-  far a plugin is trusted. See
+- **Plainer trust wording.** The docs, `SECURITY.md` and the changelog now say
+  what the sandbox protects and what it doesn't. See
   [Plugins](https://wickermoney.dev/docs/features/plugins).
+- **Frames cost a little.** Each sandboxed widget adds roughly 6 to 9 MiB and
+  150 ms after the first, and a widget below the fold keeps its minimum height
+  until you scroll to it.
 - **The image has no `:next` tag.** A release candidate is published under its
   version tag only. `:latest` is stable releases only, as before.
 
