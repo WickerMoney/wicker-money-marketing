@@ -16,10 +16,10 @@ const shipped = [
   ['Phones & accessibility (v0.4.2)', 'A navigation drawer and card layouts on small screens, collapsible Categories and Rules, icon row actions, a skip link and a title for every page.'],
   ['Plugin platform hardening (v0.5.0)', 'The plugin’s server contract in one place, stability tiers for the plugin SDK, one shared request for dashboard widgets, recurring matches that load their data once, add and edit forms in the shared dialog, and plain wording about what a plugin is and isn’t trusted to do.'],
   ['Account allowances & owner setup (v0.5.0)', 'A monthly amount measured against one checking account on the Budgets page, with rollover and categories you can leave out, for money that goes into an account “to spend on whatever”. Set BOOTSTRAP_OWNER_EMAIL to name the owner of a new instance.'],
-  ['Debt payoff (vNEXT_VERSION)', 'List your loans and cards, choose snowball or avalanche and an extra monthly amount, and see the date you’ll be debt free and the interest it saves against paying only the minimums. A dashboard widget shows the date and the next debt in line.'],
-  ['Roles & erasing your data (vNEXT_VERSION)', 'Owners change another account’s role from Settings → People. A danger zone at the bottom of Settings holds two separately-confirmed actions: “erase my data” (your own rows, across core and every plugin, keeping your login) and, for an owner, “erase this entire instance”.'],
-  ['Plugin isolation & a safer export (vNEXT_VERSION)', 'Insights and Spending Trends now run in sandboxed frames that can’t reach your session, cookies or the page, and reach data only through the app with a short-lived token. An operator can add a third-party UI plugin by hand, as an experimental feature behind an integrity pin; there is no install flow yet. The sandbox has known gaps (it doesn’t stop prerender or WebRTC requests in Chromium) and hasn’t been independently reviewed. The data export now asks for your password again.'],
-  ['Speed, accessibility & tuning (vNEXT_VERSION)', 'Core pages load on first visit, sorting the ledger uses new indexes, and responses are compressed. Focus handling, chart and table markup were fixed, and charts gain a “Show as table” view. New settings cover the database pool, statement timeouts and the CSV row limit (default 100,000).'],
+  ['Debt payoff (v0.6.0)', 'List your loans and cards, choose snowball or avalanche and an extra monthly amount, and see the date you’ll be debt free and the interest it saves against paying only the minimums. A dashboard widget shows the date and the next debt in line.'],
+  ['Roles & erasing your data (v0.6.0)', 'Owners change another account’s role from Settings → People. A danger zone at the bottom of Settings holds two separately-confirmed actions: “erase my data” (your own rows, across core and every plugin, keeping your login) and, for an owner, “erase this entire instance”.'],
+  ['Plugin isolation & a safer export (v0.6.0)', 'Insights and Spending Trends now run in sandboxed frames that can’t reach your session, cookies or the page, and reach data only through the app with a short-lived token. An operator can add a third-party UI plugin by hand, as an experimental feature behind an integrity pin; there is no install flow yet. The sandbox has known gaps (it doesn’t stop prerender or WebRTC requests in Chromium) and hasn’t been independently reviewed. The data export now asks for your password again.'],
+  ['Speed, accessibility & tuning (v0.6.0)', 'Core pages load on first visit, sorting the ledger uses new indexes, and responses are compressed. Focus handling, chart and table markup were fixed, and charts gain a “Show as table” view. New settings cover the database pool, statement timeouts and the CSV row limit (default 100,000).'],
 ]
 
 const now = [
@@ -67,7 +67,7 @@ const later = [
 
   <section class="wmm-section wmm-section--alt">
     <div class="wmm-container">
-      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through vNEXT_VERSION</h2>
+      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through v0.6.0</h2>
       <table>
         <tbody>
           {shipped.map(([name, note]) => (
@@ -85,7 +85,7 @@ const later = [
   <section class="wmm-section">
     <div class="wmm-container wmm-roadmap-grid">
       <div>
-        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> After vNEXT_VERSION</h2>
+        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> After v0.6.0</h2>
         <ul>
           {now.map((item) => <li>{item}</li>)}
         </ul>
