@@ -16,16 +16,23 @@ const shipped = [
   ['Phones & accessibility (v0.4.2)', 'A navigation drawer and card layouts on small screens, collapsible Categories and Rules, icon row actions, a skip link and a title for every page.'],
   ['Plugin platform hardening (v0.5.0)', 'The plugin’s server contract in one place, stability tiers for the plugin SDK, one shared request for dashboard widgets, recurring matches that load their data once, add and edit forms in the shared dialog, and plain wording about what a plugin is and isn’t trusted to do.'],
   ['Account allowances & owner setup (v0.5.0)', 'A monthly amount measured against one checking account on the Budgets page, with rollover and categories you can leave out, for money that goes into an account “to spend on whatever”. Set BOOTSTRAP_OWNER_EMAIL to name the owner of a new instance.'],
+  ['Debt payoff (vNEXT_VERSION)', 'List your loans and cards, choose snowball or avalanche and an extra monthly amount, and see the date you’ll be debt free and the interest it saves against paying only the minimums. A dashboard widget shows the date and the next debt in line.'],
+  ['Roles & erasing your data (vNEXT_VERSION)', 'Owners change another account’s role from Settings → People. A danger zone at the bottom of Settings holds two separately-confirmed actions: “erase my data” (your own rows, across core and every plugin, keeping your login) and, for an owner, “erase this entire instance”.'],
+  ['Plugin isolation & a safer export (vNEXT_VERSION)', 'Insights and Spending Trends now run in sandboxed frames that can’t reach your session, cookies or the page, and reach data only through the app with a short-lived token. An operator can add a third-party UI plugin by hand, as an experimental feature behind an integrity pin; there is no install flow yet. The sandbox has known gaps (it doesn’t stop prerender or WebRTC requests in Chromium) and hasn’t been independently reviewed. The data export now asks for your password again.'],
+  ['Speed, accessibility & tuning (vNEXT_VERSION)', 'Core pages load on first visit, sorting the ledger uses new indexes, and responses are compressed. Focus handling, chart and table markup were fixed, and charts gain a “Show as table” view. New settings cover the database pool, statement timeouts and the CSV row limit (default 100,000).'],
 ]
 
 const now = [
-  'A screen for owners to change another account’s role, instead of SQL.',
   'A layout pass on the Transactions table, which is crowded since the Recurring column was added.',
-  'A settings danger zone with two separately-confirmed actions: “erase my data” (your own rows across core and every plugin) and, for an owner, “erase this entire instance”.',
+  'Closing the known gaps in the plugin sandbox (prerender and WebRTC requests from a frame in Chromium), and telling an owner what they’re agreeing to when they switch a third-party plugin on.',
 ]
 
 const next = [
-  'A debt payoff plugin (snowball and avalanche), keeping its own per-debt balance, rate and minimum payment.',
+  'Starting a plugin’s frame only when it scrolls into view, so a long dashboard pays only for the frames you see.',
+  'Moving the remaining bundled plugins (Budgets, Import CSV, Upcoming, Forecast, Debt payoff) into sandboxed frames. They still run in the app’s own page.',
+  'A limit on how many CSV imports run at once, and faster deep amount-sorted pages and merchant search on very large ledgers.',
+  'A per-user rate limit on ordinary data routes, stricter on import and export.',
+  'End-to-end browser tests of the app’s main flows.',
   'A per-plugin theme contribution point, so a plugin can ship an additional theme alongside the built-in light/dark/system switcher.',
 ]
 
@@ -37,7 +44,7 @@ const later = [
   'Editing an occurrence from the calendar widget, and a month grid view.',
   'Suggesting recurring items by detecting patterns in your transaction history.',
   'Themes as a data-only plugin type: a validated set of design tokens, no code.',
-  'Third-party plugin installation — blocked on plugin isolation, which doesn’t exist yet; all plugin code today runs fully trusted, and a bundled plugin’s server-side SQL is checked for honest mistakes, not sandboxed.',
+  'Third-party plugin installation — an install flow, a catalog and signing. Today an operator can add a UI plugin by hand and it runs only in a sandboxed frame with the table reads it is granted; an independent security review of the sandbox comes first. A plugin’s server-side code stays first-party only.',
   'Freezing the plugin API (SDK_MAJOR_VERSION) ahead of 1.0. The SDK’s entry points now carry stability tiers; the freeze applies to the stable ones.',
 ]
 ---
@@ -60,7 +67,7 @@ const later = [
 
   <section class="wmm-section wmm-section--alt">
     <div class="wmm-container">
-      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through v0.5.0</h2>
+      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through vNEXT_VERSION</h2>
       <table>
         <tbody>
           {shipped.map(([name, note]) => (
@@ -78,7 +85,7 @@ const later = [
   <section class="wmm-section">
     <div class="wmm-container wmm-roadmap-grid">
       <div>
-        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> Polish after the plugin manager</h2>
+        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> After vNEXT_VERSION</h2>
         <ul>
           {now.map((item) => <li>{item}</li>)}
         </ul>
@@ -109,8 +116,10 @@ const later = [
         <em>interprets</em> money &mdash; budgets, forecasting, FIRE, importers
         &mdash; is a plugin built against <code>@wickermoney/plugin-sdk</code>. A fresh
         install is useful on its own; bundled plugins are built against the same SDK a
-        third-party plugin would use, and plugin code is fully trusted today, so
-        installing third-party plugins isn't supported yet. The instance's owner can turn any plugin on or
+        third-party plugin would use. Two of them (Insights and Spending Trends) run in
+        a sandboxed frame; the rest run in the app's own page, fully trusted. An
+        operator can add a third-party plugin by hand as an experimental feature,
+        and there's no install flow yet. The instance's owner can turn any plugin on or
         off from Settings, and a plugin that's off keeps its data until it's turned
         back on.
       </p>
@@ -118,8 +127,8 @@ const later = [
         The app and bundled plugins are AGPL-3.0. <code>plugin-sdk</code> and
         <code>ui-kit</code> &mdash; the surface a plugin is built against &mdash; are
         Apache-2.0, which is what makes an independently-built, non-bundled plugin
-        licensable on its own terms. Third-party plugin installation itself isn't built
-        yet, since it depends on plugin isolation that doesn't exist today.
+        licensable on its own terms. A third-party plugin install flow and catalog
+        aren't built yet; they wait for an independent review of the sandbox.
       </p>
     </div>
   </section>
