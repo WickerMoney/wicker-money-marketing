@@ -86,8 +86,7 @@ that deletes the new debt payoff tables and their data. See
   what the sandbox protects and what it doesn't. See
   [Plugins](https://wickermoney.dev/docs/features/plugins).
 - **Frames cost a little.** Each sandboxed widget adds roughly 6 to 9 MiB and
-  150 ms after the first, and a widget below the fold keeps its minimum height
-  until you scroll to it.
+  150 ms after the first.
 - **The image has no `:next` tag.** A release candidate is published under its
   version tag only. `:latest` is stable releases only, as before.
 
