@@ -1,5 +1,5 @@
 ---
-title: "Unreleased — heading toward vNEXT_VERSION"
+title: "Unreleased — heading toward v0.6.1"
 version: null
 date: null
 unreleased: true

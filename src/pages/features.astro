@@ -20,7 +20,7 @@ const shipped = [
   ['Roles & erasing your data (v0.6.0)', 'Owners change another account’s role from Settings → People. A danger zone at the bottom of Settings holds two separately-confirmed actions: “erase my data” (your own rows, across core and every plugin, keeping your login) and, for an owner, “erase this entire instance”.'],
   ['Plugin isolation & a safer export (v0.6.0)', 'Insights and Spending Trends now run in sandboxed frames that can’t reach your session, cookies or the page, and reach data only through the app with a short-lived token. An operator can add a third-party UI plugin by hand, as an experimental feature behind an integrity pin; there is no install flow yet. The sandbox has known gaps (it doesn’t stop prerender or WebRTC requests in Chromium) and hasn’t been independently reviewed. The data export now asks for your password again.'],
   ['Speed, accessibility & tuning (v0.6.0)', 'Core pages load on first visit, sorting the ledger uses new indexes, and responses are compressed. Focus handling, chart and table markup were fixed, and charts gain a “Show as table” view. New settings cover the database pool, statement timeouts and the CSV row limit (default 100,000).'],
-  ['Owner confirmation & a table that fits (vNEXT_VERSION)', 'An owner is asked to confirm before a third-party plugin is switched on, with its origin and the tables it can read in front of them. The Transactions table keeps its date on one line and its row actions in view on narrower windows, with every column still there.'],
+  ['Owner confirmation & a table that fits (v0.6.1)', 'An owner is asked to confirm before a third-party plugin is switched on, with its origin and the tables it can read in front of them. The Transactions table keeps its date on one line and its row actions in view on narrower windows, with every column still there.'],
 ]
 
 const now = [
@@ -67,7 +67,7 @@ const later = [
 
   <section class="wmm-section wmm-section--alt">
     <div class="wmm-container">
-      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through vNEXT_VERSION</h2>
+      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through v0.6.1</h2>
       <table>
         <tbody>
           {shipped.map(([name, note]) => (
@@ -85,7 +85,7 @@ const later = [
   <section class="wmm-section">
     <div class="wmm-container wmm-roadmap-grid">
       <div>
-        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> After vNEXT_VERSION</h2>
+        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> After v0.6.1</h2>
         <ul>
           {now.map((item) => <li>{item}</li>)}
         </ul>
