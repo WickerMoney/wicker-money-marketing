@@ -7,7 +7,7 @@ unreleased: true
 
 A small patch on v0.6.0. An owner is asked to confirm before a third-party
 plugin is switched on, the Transactions table fits narrower windows, the
-browser console stops warning about the plugin frame, and one more
+browser console and DevTools stop warning about the plugin frame, and one more
 row-level security policy gets the per-statement user lookup. There is one new
 migration, 033, which changes no access. **Back up your database before
 upgrading**, as for any release. See
@@ -40,6 +40,11 @@ upgrading**, as for any release. See
 - **No more `Origin-Agent-Cluster` warnings in the browser console.** Chromium
   logged one for each plugin frame on a dashboard. The API no longer sends the
   header, and nothing about the frame's sandbox changes.
+- **No more "blocks the use of `eval`" issues for the plugin frame.** Chrome
+  DevTools listed a Content Security Policy violation for the frame on every
+  dashboard. The zod library probes for `eval` support, the policy refuses it and
+  zod falls back, so nothing broke. The frame now turns the probe off. The policy
+  and the sandbox are unchanged, and the frame still refuses `eval`.
 
 ### Migrations
 
