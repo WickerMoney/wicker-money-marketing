@@ -21,10 +21,10 @@ const shipped = [
   ['Plugin isolation & a safer export (v0.6.0)', 'Insights and Spending Trends now run in sandboxed frames that can’t reach your session, cookies or the page, and reach data only through the app with a short-lived token. An operator can add a third-party UI plugin by hand, as an experimental feature behind an integrity pin; there is no install flow yet. The sandbox has known gaps (it doesn’t stop prerender or WebRTC requests in Chromium) and hasn’t been independently reviewed. The data export now asks for your password again.'],
   ['Speed, accessibility & tuning (v0.6.0)', 'Core pages load on first visit, sorting the ledger uses new indexes, and responses are compressed. Focus handling, chart and table markup were fixed, and charts gain a “Show as table” view. New settings cover the database pool, statement timeouts and the CSV row limit (default 100,000).'],
   ['Owner confirmation & a table that fits (v0.6.1)', 'An owner is asked to confirm before a third-party plugin is switched on, with its origin and the tables it can read in front of them. The Transactions table keeps its date on one line and its row actions in view on narrower windows, with every column still there.'],
-  ['More plugins in sandboxed frames (vNEXT_VERSION)', 'Until payday, Forecast and Debt payoff now run in sandboxed frames too, so only Budgets and Import CSV still run in the app’s own page. Frames on the dashboard start as you scroll to them. The sandbox has the same known gaps and hasn’t been independently reviewed.'],
-  ['Notifications & a quieter recurring column (vNEXT_VERSION)', 'On Transactions, Recurring, Accounts, Categories and Settings the app says what an action did (“Deleted ‘Coffee’ (-$4.50).”) in a notification that stays until you close it, with no Undo. The Transactions recurring column shows a matched item as a pill and moves choosing, suggestions and dismissals into a list that a Link button opens.'],
-  ['Debt payoff controls (vNEXT_VERSION)', 'Leave a debt out of the plan, give one debt its own monthly extra, model a loan in deferment, a promotional rate with optional deferred interest, and daily or simple daily interest. A debt that uses none of it gets the plan it got before.'],
-  ['Limits for a busy instance (vNEXT_VERSION)', 'A per-user API rate limit, on by default and easy to raise or turn off, and a cap on how many CSV imports a process commits at once, so a few large files can’t take every database connection.'],
+  ['More plugins in sandboxed frames (v0.7.0)', 'Until payday, Forecast and Debt payoff now run in sandboxed frames too, so only Budgets and Import CSV still run in the app’s own page. Frames on the dashboard start as you scroll to them. The sandbox has the same known gaps and hasn’t been independently reviewed.'],
+  ['Notifications & a quieter recurring column (v0.7.0)', 'On Transactions, Recurring, Accounts, Categories and Settings the app says what an action did (“Deleted ‘Coffee’ (-$4.50).”) in a notification that stays until you close it, with no Undo. The Transactions recurring column shows a matched item as a pill and moves choosing, suggestions and dismissals into a list that a Link button opens.'],
+  ['Debt payoff controls (v0.7.0)', 'Leave a debt out of the plan, give one debt its own monthly extra, model a loan in deferment, a promotional rate with optional deferred interest, and daily or simple daily interest. A debt that uses none of it gets the plan it got before.'],
+  ['Limits for a busy instance (v0.7.0)', 'A per-user API rate limit, on by default and easy to raise or turn off, and a cap on how many CSV imports a process commits at once, so a few large files can’t take every database connection.'],
 ]
 
 const now = [
@@ -69,7 +69,7 @@ const later = [
 
   <section class="wmm-section wmm-section--alt">
     <div class="wmm-container">
-      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through vNEXT_VERSION</h2>
+      <h2><span class="wmm-status-badge wmm-status-badge--shipped">Shipped</span> Through v0.7.0</h2>
       <table>
         <tbody>
           {shipped.map(([name, note]) => (
@@ -87,7 +87,7 @@ const later = [
   <section class="wmm-section">
     <div class="wmm-container wmm-roadmap-grid">
       <div>
-        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> After vNEXT_VERSION</h2>
+        <h2><span class="wmm-status-badge wmm-status-badge--now">Now</span> After v0.7.0</h2>
         <ul>
           {now.map((item) => <li>{item}</li>)}
         </ul>
